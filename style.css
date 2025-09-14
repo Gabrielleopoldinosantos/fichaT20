@@ -1,0 +1,315 @@
+/* Reset básico */
+body {
+  background: #fdfdfd;
+  color: #111;
+  font-family: "Times New Roman", serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  margin: 0;
+}
+
+/* Cabeçalho */
+h1 {
+  font-family: "Trajan Pro", serif;
+  color: #800;
+  text-shadow: 1px 1px #000;
+  margin: 12px 0;
+  text-align: center;
+  font-size: 1.6em;
+}
+
+/* Botões */
+button {
+  background: #800;
+  color: #fff;
+  border: 2px solid #400;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  margin: 4px;
+  font-weight: bold;
+  transition: 0.2s;
+  font-size: 0.9em;
+}
+
+button:hover {
+  background: #a00;
+}
+
+/* Caixa geral */
+.caixa {
+  border: 2px solid #800;
+  border-radius: 6px;
+  padding: 10px;
+  margin: 10px 0;
+  background: #fff;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  width: 100%;
+  max-width: 900px;
+  box-sizing: border-box;
+}
+
+/* Títulos */
+.caixa h2 {
+  background: #800;
+  color: #fff;
+  text-align: center;
+  font-size: 1.1em;
+  margin: -10px -10px 10px -10px;
+  padding: 6px;
+  border-bottom: 2px solid #400;
+  text-transform: uppercase;
+}
+
+/* Labels e inputs */
+label {
+  display: inline-block;
+  margin: 3px 6px;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+input[type="text"], input[type="number"], textarea, select {
+  border: 1px solid #800;
+  padding: 4px 6px;
+  border-radius: 4px;
+  background: #fff;
+  color: #111;
+  font-family: inherit;
+  width: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Atributos */
+.atributos {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  text-align: center;
+}
+
+.atributos div {
+  border: 1px solid #800;
+  border-radius: 6px;
+  padding: 6px;
+  font-weight: bold;
+  background: #f5f5f5;
+}
+
+.atributos input {
+  width: 100%;
+  max-width: 50px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+/* Status PV/PM */
+#pv, #pvMax, #pm, #pmMax {
+  width: 60px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Perícias */
+.pericias {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+.pericias div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed #800;
+  padding: 2px;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.pericias input[type="number"] {
+  width: 45px;
+  text-align: center;
+}
+
+/* Ataques */
+.ataque {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.ataque input {
+  flex: 1 1 120px;
+  padding: 4px;
+  max-width: 160px;
+  box-sizing: border-box;
+}
+
+.ataque button {
+  background: #c62828;
+  color: #fff;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ataque button:hover {
+  background: #b71c1c;
+}
+
+/* Textareas */
+textarea {
+  width: 100%;
+  min-height: 80px;
+  resize: vertical;
+  border: 1px solid #800;
+  border-radius: 6px;
+  background: #fefefe;
+  padding: 6px;
+}
+
+/* Inventário */
+.quadro {
+  border: 1px solid #800;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  width: 100%;
+  max-width: 900px;
+}
+
+.quadro-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #800;
+  color: #fff;
+  padding: 6px 10px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.quadro-header h2 {
+  margin: 0;
+  font-size: 1em;
+}
+
+.lista-itens {
+  padding: 8px;
+}
+
+.itemInventario {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.itemInventario input {
+  border: 1px solid #a00;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.itemInventario .itemTotal {
+  font-weight: bold;
+  min-width: 40px;
+  text-align: center;
+}
+
+.itemInventario button {
+  background: #a00;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.itemInventario .itemDesc {
+  flex-basis: 100%;
+  margin-top: 4px;
+}
+
+#statusInventario {
+  font-weight: bold;
+  margin: 8px;
+}
+
+/* ===================== */
+/* RESPONSIVIDADE */
+/* ===================== */
+
+/* Tablet (até 768px) */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.3em;
+  }
+
+  .atributos {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .pericias {
+    grid-template-columns: 1fr;
+  }
+
+  .ataque input {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .quadro-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Celular pequeno (até 480px) */
+@media (max-width: 480px) {
+  body {
+    padding: 6px;
+  }
+
+  h1 {
+    font-size: 1.1em;
+  }
+
+  button {
+    font-size: 0.8em;
+    padding: 4px 8px;
+  }
+
+  .atributos {
+    grid-template-columns: repeat(2, 1fr);
+  } 
+
+  label {
+    display: block;
+    margin: 4px 0;
+  }
+
+  input[type="text"], input[type="number"], textarea, select {
+    width: 100%;
+  }
+
+  .ataque {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ataque input, 
+  .ataque button {
+    max-width: 100%;
+    flex: 1 1 100%;
+  }
+}

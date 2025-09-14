@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Ficha Tormenta20</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>T20 - FICHA</h1>
+
+<div style="margin-bottom:10px;">
+  <button onclick="salvarFicha()">Salvar ficha</button>
+  <select id="listaFichas" style="min-width:260px;">
+    <option value="">— selecione uma ficha para carregar —</option>
+  </select>
+  <button onclick="carregarFichaSelecionada()">Carregar</button>
+</div>
+
+
+  <!-- Dados principais -->
+  <div class="caixa detalhes">
+    <h2>Personagem</h2>
+    <label>Nome: <input type="text" id="nome"></label>
+    <label>Jogador: <input type="text" id="jogador"></label>
+    <label>Raça: <input type="text" id="raca"></label>
+    <label>Origem: <input type="text" id="origem"></label>
+    <label>Classe: <input type="text" id="classe"></label>
+    <label>Nível: <input type="number" id="nivel" value="1"></label>
+    <label>Divindade: <input type="text" id="divindade"></label>
+  </div>
+
+  <!-- Atributos -->
+  <div class="caixa">
+    <h2>Atributos</h2>
+    <div class="atributos">
+      <div><span>FOR</span><input type="number" id="for" value="0"></div>
+      <div><span>DES</span><input type="number" id="des" value="0"></div>
+      <div><span>CON</span><input type="number" id="con" value="0"></div>
+      <div><span>INT</span><input type="number" id="int" value="0"></div>
+      <div><span>SAB</span><input type="number" id="sab" value="0"></div>
+      <div><span>CAR</span><input type="number" id="car" value="0"></div>
+    </div>
+  </div>
+
+  <!-- Pontos de Vida e Mana -->
+  <div class="caixa">
+    <h2>Status</h2>
+    <div>
+      PV <input type="number" id="pv" value="10"> /
+      <input type="number" id="pvMax" value="10">
+    </div>
+    <div>
+      PM <input type="number" id="pm" value="5"> /
+      <input type="number" id="pmMax" value="5">
+    </div>
+  </div>
+
+  <!-- Defesa -->
+<div class="caixa">
+  <h2>Defesa</h2>
+  <label>
+    Atributo Base:
+    <select id="defAtributo">
+      <option value="des" selected>Destreza</option>
+      <option value="for">Força</option>
+      <option value="con">Constituição</option>
+      <option value="int">Inteligência</option>
+      <option value="sab">Sabedoria</option>
+      <option value="car">Carisma</option>
+    </select>
+  </label>
+  <label>Armadura: <input type="number" id="armadura" value="0"></label>
+  <label>Escudo: <input type="number" id="escudo" value="0"></label>
+  <label>Outros: <input type="number" id="defOutros" value="0"></label>
+  <div><strong>Total Defesa: <span id="defTotal">10</span></strong></div>
+</div>
+
+
+  <!-- Ataques -->
+<div class="caixa">
+  <h2>Ataques 
+    <button id="addAtaqueBtn" type="button">+ Adicionar Ataque</button>
+  </h2>
+  <div id="ataquesContainer">
+    <div class="ataque">
+      <input type="text" placeholder="Nome do ataque">
+      <input type="number" placeholder="Teste">
+      <input type="text" placeholder="Dano">
+      <input type="text" placeholder="Crítico">
+      <input type="text" placeholder="Alcance">
+      <input type="text" placeholder="Tipo">
+      <button class="removeAtaqueBtn" type="button">Excluir</button>
+    </div>
+  </div>
+</div>
+
+
+
+  <!-- Perícias -->
+<div class="caixa">
+  <h2>Perícias</h2>
+  <div class="pericias">
+    <div><span>Acrobacia (Des)</span><input type="checkbox" id="treinoAcrobacia"><input type="number" id="periciaAcrobacia" readonly></div>
+    <div><span>Adestramento (Car)</span><input type="checkbox" id="treinoAdestramento"><input type="number" id="periciaAdestramento" readonly></div>
+    <div><span>Atletismo (For)</span><input type="checkbox" id="treinoAtletismo"><input type="number" id="periciaAtletismo" readonly></div>
+    <div><span>Atuação (Car)</span><input type="checkbox" id="treinoAtuacao"><input type="number" id="periciaAtuacao" readonly></div>
+    <div><span>Cavalgar (Des)</span><input type="checkbox" id="treinoCavalgar"><input type="number" id="periciaCavalgar" readonly></div>
+    <div><span>Conhecimento (Int)</span><input type="checkbox" id="treinoConhecimento"><input type="number" id="periciaConhecimento" readonly></div>
+    <div><span>Cura (Sab)</span><input type="checkbox" id="treinoCura"><input type="number" id="periciaCura" readonly></div>
+    <div><span>Diplomacia (Car)</span><input type="checkbox" id="treinoDiplomacia"><input type="number" id="periciaDiplomacia" readonly></div>
+    <div><span>Enganação (Car)</span><input type="checkbox" id="treinoEnganacao"><input type="number" id="periciaEnganacao" readonly></div>
+    <div><span>Fortitude (Con)</span><input type="checkbox" id="treinoFortitude"><input type="number" id="periciaFortitude" readonly></div>
+    <div><span>Furtividade (Des)</span><input type="checkbox" id="treinoFurtividade"><input type="number" id="periciaFurtividade" readonly></div>
+    <div><span>Guerra (Int)</span><input type="checkbox" id="treinoGuerra"><input type="number" id="periciaGuerra" readonly></div>
+    <div><span>Iniciativa (Des)</span><input type="checkbox" id="treinoIniciativa"><input type="number" id="periciaIniciativa" readonly></div>
+    <div><span>Intimidação (Car)</span><input type="checkbox" id="treinoIntimidacao"><input type="number" id="periciaIntimidacao" readonly></div>
+    <div><span>Intuição (Sab)</span><input type="checkbox" id="treinoIntuicao"><input type="number" id="periciaIntuicao" readonly></div>
+    <div><span>Investigação (Int)</span><input type="checkbox" id="treinoInvestigacao"><input type="number" id="periciaInvestigacao" readonly></div>
+    <div><span>Jogatina (Car)</span><input type="checkbox" id="treinoJogatina"><input type="number" id="periciaJogatina" readonly></div>
+    <div><span>Ladinagem (Des)</span><input type="checkbox" id="treinoLadinagem"><input type="number" id="periciaLadinagem" readonly></div>
+    <div><span>Luta (For)</span><input type="checkbox" id="treinoLuta"><input type="number" id="periciaLuta" readonly></div>
+    <div><span>Misticismo (Int)</span><input type="checkbox" id="treinoMisticismo"><input type="number" id="periciaMisticismo" readonly></div>
+    <div><span>Nobreza (Int)</span><input type="checkbox" id="treinoNobreza"><input type="number" id="periciaNobreza" readonly></div>
+    <div><span>Ofício (Int)</span><input type="checkbox" id="treinoOficio"><input type="number" id="periciaOficio" readonly></div>
+    <div><span>Percepção (Sab)</span><input type="checkbox" id="treinoPercepcao"><input type="number" id="periciaPercepcao" readonly></div>
+    <div><span>Pilotagem (Des)</span><input type="checkbox" id="treinoPilotagem"><input type="number" id="periciaPilotagem" readonly></div>
+    <div><span>Pontaria (Des)</span><input type="checkbox" id="treinoPontaria"><input type="number" id="periciaPontaria" readonly></div>
+    <div><span>Reflexos (Des)</span><input type="checkbox" id="treinoReflexos"><input type="number" id="periciaReflexos" readonly></div>
+    <div><span>Religião (Sab)</span><input type="checkbox" id="treinoReligiao"><input type="number" id="periciaReligiao" readonly></div>
+    <div><span>Sobrevivência (Sab)</span><input type="checkbox" id="treinoSobrevivencia"><input type="number" id="periciaSobrevivencia" readonly></div>
+    <div><span>Vontade (Sab)</span><input type="checkbox" id="treinoVontade"><input type="number" id="periciaVontade" readonly></div>
+  </div>
+</div>
+
+
+  <!-- Proficiencias -->
+  <div class="caixa">
+    <h2>Proficiencias & Outras Características</h2>
+    <textarea rows="5" style="width:100%;"></textarea>
+  </div>
+
+  <!-- Magias -->
+  <div class="caixa">
+    <h2>Habilidades & Magias</h2>
+    <textarea rows="5" style="width:100%;"></textarea>
+  </div>
+
+<div class="quadro">
+  <div class="quadro-header">
+    <h2>INVENTÁRIO</h2>
+    <button type="button" id="addItemBtn">+ Adicionar Item</button>
+  </div>
+  <div id="inventarioContainer" class="lista-itens"></div>
+  <p id="statusInventario">Espaço ocupado: 0 / 0</p>
+</div>
+
+
+
+  <script type="module" src="script.js"></script>
+  
+</body>
+</html>
