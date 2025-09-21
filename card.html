@@ -57,31 +57,40 @@
   <div id="fichas"></div>
 
 <script type="module">
-  const fichasContainer = document.getElementById("fichas");
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  // Cria canal para receber dados de várias fichas
-  const channel = new BroadcastChannel('fichaRealtime');
+const firebaseConfig = {
+  apiKey: "AIzaSyBLYyVAn1lY6cvHHEun9MxMsCPNPum6eps",
+  authDomain: "solo-2299a.firebaseapp.com",
+  projectId: "solo-2299a",
+  storageBucket: "solo-2299a.firebasestorage.app",
+  messagingSenderId: "678083370622",
+  appId: "1:678083370622:web:43a1a34b825340c81bc22f"
+};
 
-  channel.onmessage = (ev) => {
-    const { id, pv, pvMax, pm, pmMax } = ev.data;
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    // Tenta encontrar card existente
-    let card = document.getElementById("card-" + id);
+const fichasContainer = document.getElementById("fichas");
 
-    if (!card) {
-      // Cria card se não existir
-      card = document.createElement("div");
-      card.id = "card-" + id;
-      card.classList.add("card");
-      fichasContainer.appendChild(card);
-    }
+// Escuta todas as fichas em tempo real
+onSnapshot(collection(db, "fichasTormenta20"), (snapshot) => {
+  fichasContainer.innerHTML = ""; // limpa cards antigos
+  snapshot.forEach((doc) => {
+    const data = doc.data();
+    const { nome, pv, pvMax, pm, pmMax } = data;
 
-    // Atualiza conteúdo do card
+    const card = document.createElement("div");
+    card.classList.add("card");
     card.innerHTML = `
-      <div class="pv"><strong>PV:</strong> ${pv} / ${pvMax}</div>
-      <div class="pm"><strong>PM:</strong> ${pm} / ${pmMax}</div>
+      <h3>${nome ?? "(sem nome)"}</h3>
+      <div class="pv"><strong>PV:</strong> ${pv ?? 0} / ${pvMax ?? 0}</div>
+      <div class="pm"><strong>PM:</strong> ${pm ?? 0} / ${pmMax ?? 0}</div>
     `;
-  };
+    fichasContainer.appendChild(card);
+  });
+});
 </script>
 
 </body>

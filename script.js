@@ -1,8 +1,7 @@
 // Imports via CDN (funciona direto em HTML, sem bundler)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import {
-  getFirestore, collection, addDoc, getDocs, getDoc, doc, setDoc
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, getDoc, doc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
 
 // 1) Cole seu firebaseConfig aqui
 const firebaseConfig = {
@@ -371,7 +370,14 @@ function atualizarCardsRealtime() {
   const pm = gvn("pm");
   const pmMax = gvn("pmMax");
 
-  // Envia os valores para outras abas
+  // Atualiza Firestore automaticamente
+  if (fichaAtualId) {
+    const dref = doc(db, COL, fichaAtualId);
+    updateDoc(dref, { pv, pvMax, pm, pmMax, updatedAt: new Date().toISOString() })
+      .catch(e => console.error("Erro ao atualizar Firestore:", e));
+  }
+
+  // Envia valores para outras abas
   channel.postMessage({ pv, pvMax, pm, pmMax });
 
   // Atualiza card na mesma aba
@@ -379,6 +385,7 @@ function atualizarCardsRealtime() {
     window.updateCardDisplay({ pv, pvMax, pm, pmMax });
   }
 }
+
 
 // Escuta mudanças nos inputs de PV/PM
 ["pv", "pvMax", "pm", "pmMax"].forEach(id => {
