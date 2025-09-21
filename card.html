@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>PV / PM das Fichas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Slabo+27px&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: "Slabo 27px", serif;
+      background: transparent;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: white;
+      text-shadow: 0 0 5px #fff, 0 0 10px #ff0000, 0 0 15px #ff0000;
+    }
+
+    .card {
+      background: rgba(0,0,0,0.3);
+      padding: 15px;
+      margin: 10px auto;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.3);
+      max-width: 200px;
+    }
+
+    .pv {
+      font-size: 30px;
+      color: white;
+      text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .pm {
+      font-size: 30px;
+      color: white;
+      text-shadow: 0 0 5px #0000ff, 0 0 10px #0000ff, 0 0 20px #0000ff;
+      font-weight: bold;
+    }
+
+    #fichas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>PV / PM das Fichas</h1>
+  <div id="fichas"></div>
+
+<script type="module">
+  const fichasContainer = document.getElementById("fichas");
+
+  // Cria canal para receber dados de várias fichas
+  const channel = new BroadcastChannel('fichaRealtime');
+
+  channel.onmessage = (ev) => {
+    const { id, pv, pvMax, pm, pmMax } = ev.data;
+
+    // Tenta encontrar card existente
+    let card = document.getElementById("card-" + id);
+
+    if (!card) {
+      // Cria card se não existir
+      card = document.createElement("div");
+      card.id = "card-" + id;
+      card.classList.add("card");
+      fichasContainer.appendChild(card);
+    }
+
+    // Atualiza conteúdo do card
+    card.innerHTML = `
+      <div class="pv"><strong>PV:</strong> ${pv} / ${pvMax}</div>
+      <div class="pm"><strong>PM:</strong> ${pm} / ${pmMax}</div>
+    `;
+  };
+</script>
+
+</body>
+</html>

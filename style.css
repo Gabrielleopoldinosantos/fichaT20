@@ -287,6 +287,9 @@ textarea {
   button {
     font-size: 0.8em;
     padding: 4px 8px;
+    display: block;
+    width: 100%;
+    margin: 6px 0;
   }
 
   .atributos {
@@ -298,8 +301,14 @@ textarea {
     margin: 4px 0;
   }
 
-  input[type="text"], input[type="number"], textarea, select {
+  input[type="text"], 
+  input[type="number"], 
+  textarea, 
+  select, 
+  button {
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .ataque {
@@ -311,5 +320,17 @@ textarea {
   .ataque button {
     max-width: 100%;
     flex: 1 1 100%;
+  }
+
+  .itemInventario {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Celular muito pequeno (até 360px) */
+@media (max-width: 360px) {
+  .atributos {
+    grid-template-columns: 1fr;
   }
 }

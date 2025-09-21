@@ -362,7 +362,35 @@ function criarItemInventario(nome = "", qtd = null, peso = null, desc = "") {
   atualizarInventario();
 }
 
+// Canal para comunicação entre abas
+const channel = new BroadcastChannel('fichaRealtime');
+
+function atualizarCardsRealtime() {
+  const pv = gvn("pv");
+  const pvMax = gvn("pvMax");
+  const pm = gvn("pm");
+  const pmMax = gvn("pmMax");
+
+  // Envia os valores para outras abas
+  channel.postMessage({ pv, pvMax, pm, pmMax });
+
+  // Atualiza card na mesma aba
+  if (window.updateCardDisplay) {
+    window.updateCardDisplay({ pv, pvMax, pm, pmMax });
+  }
+}
+
+// Escuta mudanças nos inputs de PV/PM
+["pv", "pvMax", "pm", "pmMax"].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener("input", atualizarCardsRealtime);
+});
+
+// Inicializa no carregamento
+window.addEventListener("load", atualizarCardsRealtime);
+
 
 document.getElementById("addItemBtn").addEventListener("click", () => criarItemInventario());
 document.getElementById("for").addEventListener("input", atualizarInventario);
 window.addEventListener("load", atualizarInventario);
+
