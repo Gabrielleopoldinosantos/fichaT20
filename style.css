@@ -131,6 +131,7 @@ input[type="text"], input[type="number"], textarea, select {
  box-shadow: 0 0 6px rgba(139,0,0,0.5);
 }
 
+
 #pm, #pmMax {
  border: 2px solid #00008b; /* Azul Escuro */
  background: #e7e7e7; /* Fundo azul claro/cinza suave para destacar */
