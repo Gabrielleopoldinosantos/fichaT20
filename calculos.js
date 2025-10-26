@@ -87,6 +87,7 @@ export function capacidadeCarga() {
     };
 }
 
+
 export function atualizarInventario() {
     let ocupado = 0;
 
