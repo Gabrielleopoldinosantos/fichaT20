@@ -74,7 +74,7 @@ Object.keys(atributoPericia).forEach(nome => {
 export function capacidadeCarga() {
     const forca = gvn("for");
     // Lógica de cálculo de carga de T20 (10 + Força * 2, mas simplificado aqui)
-    let capacidade = 5 + (forca > 0 ? forca * 2 : 0); // Ajuste para a regra 5 + Força*2
+    let capacidade = 10 + (forca > 0 ? forca * 2 : 0); // Ajuste para a regra 5 + Força*2
 
     // Se estiver usando o cálculo original do seu código (que parece ser para Força negativa):
     // let capacidade = 10 + (forca > 0 ? forca * 2 : forca * -1 * -1); 
