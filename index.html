@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ficha Tormenta20</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styleEscuro.css">
+
 </head>
 <body>
 <h1>T20 - FICHA</h1>
@@ -15,10 +17,12 @@
     <option value="">— selecione uma ficha para carregar —</option>
   </select>
   <button onclick="carregarFichaSelecionada()">Carregar</button>
+  
+  <button id="toggleDarkModeBtn" type="button">🌓 Modo Escuro</button> 
 </div>
 
+<div class="ficha-container"> 
 
-  <!-- Dados principais -->
   <div class="caixa detalhes">
     <h2>Personagem</h2>
     <label>Nome: <input type="text" id="nome"></label>
@@ -30,8 +34,7 @@
     <label>Divindade: <input type="text" id="divindade"></label>
   </div>
 
-  <!-- Atributos -->
-  <div class="caixa">
+  <div class="caixa atributos-caixa">
     <h2>Atributos</h2>
     <div class="atributos">
       <div><span>FOR</span><input type="number" id="for" value="0"></div>
@@ -43,21 +46,52 @@
     </div>
   </div>
 
-  <!-- Pontos de Vida e Mana -->
-  <div class="caixa">
+<div class="caixa status-caixa">
     <h2>Status</h2>
-    <div>
-      PV <input type="number" id="pv" value="10"> /
-      <input type="number" id="pvMax" value="10">
+    
+    <div class="status-bar-container">
+        <span class="status-label">PONTOS DE VIDA (PV)</span>
+        <div class="status-bar pv">
+            <div class="status-bar-fill" id="pv-bar"></div>
+            <div class="status-bar-inner">
+                <input type="number" id="pv-input" class="status-input-current" value="10">
+                <span class="status-separator">/</span>
+                <input type="number" id="pvMax-input" class="status-input-max" value="10">
+            </div>
+        </div>
     </div>
-    <div>
-      PM <input type="number" id="pm" value="5"> /
-      <input type="number" id="pmMax" value="5">
-    </div>
-  </div>
 
-  <!-- Defesa -->
-<div class="caixa">
+    <div class="status-bar-container">
+        <span class="status-label">PONTOS DE MANA (PM)</span>
+        <div class="status-bar pm">
+            <div class="status-bar-fill" id="pm-bar"></div>
+            <div class="status-bar-inner">
+                <input type="number" id="pm-input" class="status-input-current" value="10">
+                <span class="status-separator">/</span>
+                <input type="number" id="pmMax-input" class="status-input-max" value="10">
+            </div>
+        </div>
+    </div>
+
+<div class="deslocamento-container">
+    <div class="deslocamento-inputs">
+        <label for="deslocamento-m">Deslocamento</label>
+        <input type="number" id="deslocamento-m" value="9">
+        <span>m</span>
+        <span class="status-separator">/</span>
+        <input type="number" id="deslocamento-q" value="6">
+        <span>q</span>
+    </div>
+    
+    <div class="rd-input-container">
+        <label for="rd-input">RD</label>
+        <input type="text" id="rd-input" value="Nenhuma">
+    </div>
+</div> 
+</div>
+
+
+  <div class="caixa defesa-caixa">
   <h2>Defesa</h2>
   <label>
     Atributo Base:
@@ -73,12 +107,15 @@
   <label>Armadura: <input type="number" id="armadura" value="0"></label>
   <label>Escudo: <input type="number" id="escudo" value="0"></label>
   <label>Outros: <input type="number" id="defOutros" value="0"></label>
-  <div><strong>Total Defesa: <span id="defTotal">10</span></strong></div>
+  <label>Penalidade de Armadura: <input type="number" id="armaduraPenalidade" value="0"></label>
+  <input type="hidden" id="penalidadeSobrecarga" value="0">
+<div class="total-defesa-container">
+  Total Defesa: <span id="defTotal">10</span>
+</div>
 </div>
 
 
-  <!-- Ataques -->
-<div class="caixa">
+  <div class="caixa ataques-caixa">
   <h2>Ataques 
     <button id="addAtaqueBtn" type="button">+ Adicionar Ataque</button>
   </h2>
@@ -97,73 +134,431 @@
 
 
 
-  <!-- Perícias -->
-<div class="caixa">
+  <div class="caixa pericias-caixa">
     <h2>Perícias</h2>
-    <div class="pericias">
-        <div><span>Acrobacia (Des)</span><input type="checkbox" id="treinoAcrobacia"><input type="number" id="bonusAcrobacia" placeholder="Bônus" value="0"><input type="number" id="periciaAcrobacia" readonly></div>
-        <div><span>Adestramento (Car)</span><input type="checkbox" id="treinoAdestramento"><input type="number" id="bonusAdestramento" placeholder="Bônus" value="0"><input type="number" id="periciaAdestramento" readonly></div>
-        <div><span>Atletismo (For)</span><input type="checkbox" id="treinoAtletismo"><input type="number" id="bonusAtletismo" placeholder="Bônus" value="0"><input type="number" id="periciaAtletismo" readonly></div>
-        <div><span>Atuação (Car)</span><input type="checkbox" id="treinoAtuacao"><input type="number" id="bonusAtuacao" placeholder="Bônus" value="0"><input type="number" id="periciaAtuacao" readonly></div>
-        <div><span>Cavalgar (Des)</span><input type="checkbox" id="treinoCavalgar"><input type="number" id="bonusCavalgar" placeholder="Bônus" value="0"><input type="number" id="periciaCavalgar" readonly></div>
-        <div><span>Conhecimento (Int)</span><input type="checkbox" id="treinoConhecimento"><input type="number" id="bonusConhecimento" placeholder="Bônus" value="0"><input type="number" id="periciaConhecimento" readonly></div>
-        <div><span>Cura (Sab)</span><input type="checkbox" id="treinoCura"><input type="number" id="bonusCura" placeholder="Bônus" value="0"><input type="number" id="periciaCura" readonly></div>
-        <div><span>Diplomacia (Car)</span><input type="checkbox" id="treinoDiplomacia"><input type="number" id="bonusDiplomacia" placeholder="Bônus" value="0"><input type="number" id="periciaDiplomacia" readonly></div>
-        <div><span>Enganação (Car)</span><input type="checkbox" id="treinoEnganacao"><input type="number" id="bonusEnganacao" placeholder="Bônus" value="0"><input type="number" id="periciaEnganacao" readonly></div>
-        <div><span>Fortitude (Con)</span><input type="checkbox" id="treinoFortitude"><input type="number" id="bonusFortitude" placeholder="Bônus" value="0"><input type="number" id="periciaFortitude" readonly></div>
-        <div><span>Furtividade (Des)</span><input type="checkbox" id="treinoFurtividade"><input type="number" id="bonusFurtividade" placeholder="Bônus" value="0"><input type="number" id="periciaFurtividade" readonly></div>
-        <div><span>Guerra (Int)</span><input type="checkbox" id="treinoGuerra"><input type="number" id="bonusGuerra" placeholder="Bônus" value="0"><input type="number" id="periciaGuerra" readonly></div>
-        <div><span>Iniciativa (Des)</span><input type="checkbox" id="treinoIniciativa"><input type="number" id="bonusIniciativa" placeholder="Bônus" value="0"><input type="number" id="periciaIniciativa" readonly></div>
-        <div><span>Intimidação (Car)</span><input type="checkbox" id="treinoIntimidacao"><input type="number" id="bonusIntimidacao" placeholder="Bônus" value="0"><input type="number" id="periciaIntimidacao" readonly></div>
-        <div><span>Intuição (Sab)</span><input type="checkbox" id="treinoIntuicao"><input type="number" id="bonusIntuicao" placeholder="Bônus" value="0"><input type="number" id="periciaIntuicao" readonly></div>
-        <div><span>Investigação (Int)</span><input type="checkbox" id="treinoInvestigacao"><input type="number" id="bonusInvestigacao" placeholder="Bônus" value="0"><input type="number" id="periciaInvestigacao" readonly></div>
-        <div><span>Jogatina (Car)</span><input type="checkbox" id="treinoJogatina"><input type="number" id="bonusJogatina" placeholder="Bônus" value="0"><input type="number" id="periciaJogatina" readonly></div>
-        <div><span>Ladinagem (Des)</span><input type="checkbox" id="treinoLadinagem"><input type="number" id="bonusLadinagem" placeholder="Bônus" value="0"><input type="number" id="periciaLadinagem" readonly></div>
-        <div><span>Luta (For)</span><input type="checkbox" id="treinoLuta"><input type="number" id="bonusLuta" placeholder="Bônus" value="0"><input type="number" id="periciaLuta" readonly></div>
-        <div><span>Misticismo (Int)</span><input type="checkbox" id="treinoMisticismo"><input type="number" id="bonusMisticismo" placeholder="Bônus" value="0"><input type="number" id="periciaMisticismo" readonly></div>
-        <div><span>Nobreza (Int)</span><input type="checkbox" id="treinoNobreza"><input type="number" id="bonusNobreza" placeholder="Bônus" value="0"><input type="number" id="periciaNobreza" readonly></div>
-        <div><span>Ofício (Int)</span><input type="checkbox" id="treinoOficio"><input type="number" id="bonusOficio" placeholder="Bônus" value="0"><input type="number" id="periciaOficio" readonly></div>
-        <div><span>Percepção (Sab)</span><input type="checkbox" id="treinoPercepcao"><input type="number" id="bonusPercepcao" placeholder="Bônus" value="0"><input type="number" id="periciaPercepcao" readonly></div>
-        <div><span>Pilotagem (Des)</span><input type="checkbox" id="treinoPilotagem"><input type="number" id="bonusPilotagem" placeholder="Bônus" value="0"><input type="number" id="periciaPilotagem" readonly></div>
-        <div><span>Pontaria (Des)</span><input type="checkbox" id="treinoPontaria"><input type="number" id="bonusPontaria" placeholder="Bônus" value="0"><input type="number" id="periciaPontaria" readonly></div>
-        <div><span>Reflexos (Des)</span><input type="checkbox" id="treinoReflexos"><input type="number" id="bonusReflexos" placeholder="Bônus" value="0"><input type="number" id="periciaReflexos" readonly></div>
-        <div><span>Religião (Sab)</span><input type="checkbox" id="treinoReligiao"><input type="number" id="bonusReligiao" placeholder="Bônus" value="0"><input type="number" id="periciaReligiao" readonly></div>
-        <div><span>Sobrevivência (Sab)</span><input type="checkbox" id="treinoSobrevivencia"><input type="number" id="bonusSobrevivencia" placeholder="Bônus" value="0"><input type="number" id="periciaSobrevivencia" readonly></div>
-        <div><span>Vontade (Sab)</span><input type="checkbox" id="treinoVontade"><input type="number" id="bonusVontade" placeholder="Bônus" value="0"><input type="number" id="periciaVontade" readonly></div>
-    </div>
+<div class="pericias">
+  <div><span>Acrobacia</span>
+    <select id="attrAcrobacia">
+      <option value="for">For</option>
+      <option value="des" selected>Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab">Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoAcrobacia">
+    <input type="number" id="bonusAcrobacia" placeholder="Bônus" value="0">
+    <input type="number" id="periciaAcrobacia" readonly>
+  </div>
+
+  <div><span>Adestramento</span>
+    <select id="attrAdestramento">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab">Sab</option>
+      <option value="car" selected>Car</option>
+    </select>
+    <input type="checkbox" id="treinoAdestramento">
+    <input type="number" id="bonusAdestramento" placeholder="Bônus" value="0">
+    <input type="number" id="periciaAdestramento" readonly>
+  </div>
+
+  <div><span>Atletismo</span>
+    <select id="attrAtletismo">
+      <option value="for" selected>For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab">Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoAtletismo">
+    <input type="number" id="bonusAtletismo" placeholder="Bônus" value="0">
+    <input type="number" id="periciaAtletismo" readonly>
+  </div>
+
+  <div><span>Atuação</span>
+    <select id="attrAtuacao">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab">Sab</option>
+      <option value="car" selected>Car</option>
+    </select>
+    <input type="checkbox" id="treinoAtuacao">
+    <input type="number" id="bonusAtuacao" placeholder="Bônus" value="0">
+    <input type="number" id="periciaAtuacao" readonly>
+  </div>
+
+  <div><span>Cavalgar</span>
+    <select id="attrCavalgar">
+      <option value="for">For</option>
+      <option value="des" selected>Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab">Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoCavalgar">
+    <input type="number" id="bonusCavalgar" placeholder="Bônus" value="0">
+    <input type="number" id="periciaCavalgar" readonly>
+  </div>
+
+  <div><span>Conhecimento</span>
+    <select id="attrConhecimento">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int" selected>Int</option>
+      <option value="sab">Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoConhecimento">
+    <input type="number" id="bonusConhecimento" placeholder="Bônus" value="0">
+    <input type="number" id="periciaConhecimento" readonly>
+  </div>
+
+  <div><span>Cura</span>
+    <select id="attrCura">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab" selected>Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoCura">
+    <input type="number" id="bonusCura" placeholder="Bônus" value="0">
+    <input type="number" id="periciaCura" readonly>
+  </div>
+
+  <div><span>Diplomacia</span>
+    <select id="attrDiplomacia">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab">Sab</option>
+      <option value="car" selected>Car</option>
+    </select>
+    <input type="checkbox" id="treinoDiplomacia">
+    <input type="number" id="bonusDiplomacia" placeholder="Bônus" value="0">
+    <input type="number" id="periciaDiplomacia" readonly>
+  </div>
+
+  <div><span>Enganação</span>
+    <select id="attrEnganacao">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab">Sab</option>
+      <option value="car" selected>Car</option>
+    </select>
+    <input type="checkbox" id="treinoEnganacao">
+    <input type="number" id="bonusEnganacao" placeholder="Bônus" value="0">
+    <input type="number" id="periciaEnganacao" readonly>
+  </div>
+
+  <div><span>Fortitude</span>
+    <select id="attrFortitude">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con" selected>Con</option>
+      <option value="int">Int</option>
+      <option value="sab">Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoFortitude">
+    <input type="number" id="bonusFortitude" placeholder="Bônus" value="0">
+    <input type="number" id="periciaFortitude" readonly>
+  </div>
+
+  <div><span>Furtividade</span>
+    <select id="attrFurtividade">
+      <option value="for">For</option>
+      <option value="des" selected>Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab">Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoFurtividade">
+    <input type="number" id="bonusFurtividade" placeholder="Bônus" value="0">
+    <input type="number" id="periciaFurtividade" readonly>
+  </div>
+
+  <div><span>Guerra</span>
+    <select id="attrGuerra">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int" selected>Int</option>
+      <option value="sab">Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoGuerra">
+    <input type="number" id="bonusGuerra" placeholder="Bônus" value="0">
+    <input type="number" id="periciaGuerra" readonly>
+  </div>
+
+  <div><span>Iniciativa</span>
+    <select id="attrIniciativa">
+      <option value="for">For</option>
+      <option value="des" selected>Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab">Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoIniciativa">
+    <input type="number" id="bonusIniciativa" placeholder="Bônus" value="0">
+    <input type="number" id="periciaIniciativa" readonly>
+  </div>
+
+  <div><span>Intimidação</span>
+    <select id="attrIntimidacao">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab">Sab</option>
+      <option value="car" selected>Car</option>
+    </select>
+    <input type="checkbox" id="treinoIntimidacao">
+    <input type="number" id="bonusIntimidacao" placeholder="Bônus" value="0">
+    <input type="number" id="periciaIntimidacao" readonly>
+  </div>
+
+  <div><span>Intuição</span>
+    <select id="attrIntuicao">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab" selected>Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoIntuicao">
+    <input type="number" id="bonusIntuicao" placeholder="Bônus" value="0">
+    <input type="number" id="periciaIntuicao" readonly>
+  </div>
+
+  <div><span>Jogatina</span>
+    <select id="attrJogatina">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab">Sab</option>
+      <option value="car" selected>Car</option>
+    </select>
+    <input type="checkbox" id="treinoJogatina">
+    <input type="number" id="bonusJogatina" placeholder="Bônus" value="0">
+    <input type="number" id="periciaJogatina" readonly>
+  </div>
+
+  <div><span>Ladinagem</span>
+    <select id="attrLadinagem">
+      <option value="for">For</option>
+      <option value="des" selected>Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab">Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoLadinagem">
+    <input type="number" id="bonusLadinagem" placeholder="Bônus" value="0">
+    <input type="number" id="periciaLadinagem" readonly>
+  </div>
+
+  <div><span>Luta</span>
+    <select id="attrLuta">
+      <option value="for" selected>For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab">Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoLuta">
+    <input type="number" id="bonusLuta" placeholder="Bônus" value="0">
+    <input type="number" id="periciaLuta" readonly>
+  </div>
+
+  <div><span>Misticismo</span>
+    <select id="attrMisticismo">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int" selected>Int</option>
+      <option value="sab">Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoMisticismo">
+    <input type="number" id="bonusMisticismo" placeholder="Bônus" value="0">
+    <input type="number" id="periciaMisticismo" readonly>
+  </div>
+
+  <div><span>Nobreza</span>
+    <select id="attrNobreza">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int" selected>Int</option>
+      <option value="sab">Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoNobreza">
+    <input type="number" id="bonusNobreza" placeholder="Bônus" value="0">
+    <input type="number" id="periciaNobreza" readonly>
+  </div>
+
+  <div><span>Ofício</span>
+    <select id="attrOficio">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int" selected>Int</option>
+      <option value="sab">Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoOficio">
+    <input type="number" id="bonusOficio" placeholder="Bônus" value="0">
+    <input type="number" id="periciaOficio" readonly>
+  </div>
+
+    <div><span>Percepção</span>
+    <select id="attrPercepcao">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab" selected>Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoPercepcao">
+    <input type="number" id="bonusPercepcao" placeholder="Bônus" value="0">
+    <input type="number" id="periciaPercepcao" readonly>
+  </div>
+
+  <div><span>Pilotagem</span>
+    <select id="attrPilotagem">
+      <option value="for">For</option>
+      <option value="des" selected>Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab">Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoPilotagem">
+    <input type="number" id="bonusPilotagem" placeholder="Bônus" value="0">
+    <input type="number" id="periciaPilotagem" readonly>
+  </div>
+
+  <div><span>Pontaria</span>
+    <select id="attrPontaria">
+      <option value="for">For</option>
+      <option value="des" selected>Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab">Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoPontaria">
+    <input type="number" id="bonusPontaria" placeholder="Bônus" value="0">
+    <input type="number" id="periciaPontaria" readonly>
+  </div>
+
+  <div><span>Reflexos</span>
+    <select id="attrReflexos">
+      <option value="for">For</option>
+      <option value="des" selected>Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab">Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoReflexos">
+    <input type="number" id="bonusReflexos" placeholder="Bônus" value="0">
+    <input type="number" id="periciaReflexos" readonly>
+  </div>
+
+  <div><span>Religião</span>
+    <select id="attrReligiao">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab" selected>Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoReligiao">
+    <input type="number" id="bonusReligiao" placeholder="Bônus" value="0">
+    <input type="number" id="periciaReligiao" readonly>
+  </div>
+
+  <div><span>Sobrevivência</span>
+    <select id="attrSobrevivencia">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab" selected>Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoSobrevivencia">
+    <input type="number" id="bonusSobrevivencia" placeholder="Bônus" value="0">
+    <input type="number" id="periciaSobrevivencia" readonly>
+  </div>
+
+  <div><span>Vontade</span>
+    <select id="attrVontade">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int">Int</option>
+      <option value="sab" selected>Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoVontade">
+    <input type="number" id="bonusVontade" placeholder="Bônus" value="0">
+    <input type="number" id="periciaVontade" readonly>
+  </div>
+</div>
 </div>
 
 
-  <!-- Proficiencias -->
-  <div class="caixa">
+  <div class="caixa proficiencias-caixa">
     <h2>Proficiencias & Outras Características</h2>
     <textarea rows="5" style="width:100%;"></textarea>
   </div>
 
-  <div class="caixa">
-<h2>Habilidades & Características</h2>
-<textarea rows="5" id="habilidades" style="width:100%;"></textarea>
- </div>
-
- <div class="caixa">
- <h2>Magias
- <button id="addMagiaBtn" type="button">+ Adicionar Magia</button>
- </h2>
- <div id="magiasContainer">
- </div>
- </div>
-
-<div class="quadro">
-  <div class="quadro-header">
-    <h2>INVENTÁRIO</h2>
-    <button type="button" id="addItemBtn">+ Adicionar Item</button>
+  <div class="caixa habilidades-caixa">
+    <h2>Habilidades</h2>
+    <textarea rows="5" id="habilidades" style="width:100%;"></textarea>
   </div>
-  <div id="inventarioContainer" class="lista-itens"></div>
-  <p id="statusInventario">Espaço ocupado: 0 / 0</p>
-</div>
 
+  <div class="caixa magias-caixa">
+    <h2>Magias
+    <button id="addMagiaBtn" type="button">+ Adicionar Magia</button>
+    </h2>
+    <div id="magiasContainer">
+    </div>
+  </div>
 
+  <div class="quadro inventario-quadro">
+    <div class="quadro-header">
+      <h2>INVENTÁRIO</h2>
+      <button type="button" id="addItemBtn">+ Adicionar Item</button>
+    </div>
+    <div id="inventarioContainer" class="lista-itens"></div>
+    <p id="statusInventario">Espaço ocupado: 0 / 0</p>
+  </div>
 
-<script type="module" src="./script.js"></script>  
+</div> <script type="module" src="./script.js"></script>  
 </body>
 </html>

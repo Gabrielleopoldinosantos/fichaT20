@@ -16,19 +16,20 @@ import {
 
 // Coleta todos os dados da tela
 export function coletarFichaDoFormulario() {
-    // ... [O corpo original da sua função coletarFichaDoFormulario] ...
     
-    // Perícias
+// Perícias
 const pericias = [];
-    document.querySelectorAll(".pericias div").forEach(div => {
-        const nome = div.querySelector("span")?.innerText?.trim().split(' ')[0] ?? ""; // Pega o nome sem (Attr)
-        const valor = parseInt(div.querySelector("#pericia" + nome)?.value) || 0;
-        const treinado = div.querySelector("#treino" + nome)?.checked || false;
-        // NOVO: Coleta o valor do bônus
-        const bonus = gvn("bonus" + nome);
-        
-        if (nome) pericias.push({ nome, valor, treinado, bonus }); // ADICIONA O BÔNUS
-    });
+document.querySelectorAll(".pericias div").forEach(div => {
+  const nome = div.querySelector("span")?.innerText?.trim() ?? "";
+  const valor = parseInt(div.querySelector("#pericia" + nome)?.value) || 0;
+  const treinado = div.querySelector("#treino" + nome)?.checked || false;
+  const bonus = gvn("bonus" + nome);
+  const atributo = div.querySelector("#attr" + nome)?.value ?? "des"; // novo campo
+
+  if (nome)
+    pericias.push({ nome, valor, treinado, bonus, atributo });
+});
+
 
     // Ataques
     const ataques = [];
@@ -76,15 +77,21 @@ const pericias = [];
         sab: gvn("sab"),
         car: gvn("car"),
 
-        pv: gvn("pv"),
-        pvMax: gvn("pvMax"),
-        pm: gvn("pm"),
-        pmMax: gvn("pmMax"),
+        pv: gvn("pv-input"), 
+        pvMax: gvn("pvMax-input"),
+        pm: gvn("pm-input"),
+        pmMax: gvn("pmMax-input"),
+
+        deslocamentoM: parseFloat(document.getElementById("deslocamento-m")?.value) || 9,
+        deslocamentoQ: gvn("deslocamento-q") || 6,
+
+        rd: gv("rd-input"),
 
         defAtributo: gv("defAtributo"),
         armadura: gvn("armadura"),
         escudo: gvn("escudo"),
         defOutros: gvn("defOutros"),
+        armaduraPenalidade: gvn("armaduraPenalidade"),
 
         pericias, // JÁ INCLUI O NOVO CAMPO 'bonus'
         ataques: ataques,
@@ -126,33 +133,40 @@ export function preencherFormularioComFicha(f) {
     set("sab", f.sab);
     set("car", f.car);
 
-    set("pv", f.pv);
-    set("pvMax", f.pvMax);
-    set("pm", f.pm);
-    set("pmMax", f.pmMax);
+    set("pv-input", f.pv);
+    set("pvMax-input", f.pvMax);
+    set("pm-input", f.pm);
+    set("pmMax-input", f.pmMax);
+
+    set("deslocamento-m", f.deslocamentoM || 9);
+    set("deslocamento-q", f.deslocamentoQ || 6);
+
+    set("rd-input", f.rd || "Nenhuma");
 
     set("defAtributo", f.defAtributo);
     set("armadura", f.armadura);
     set("escudo", f.escudo);
     set("defOutros", f.defOutros);
+    set("armaduraPenalidade", f.armaduraPenalidade); // NOVO CAMPO CARREGADO
 
-    // Perícias
+// Perícias
 const mapaPericias = new Map((f.pericias ?? []).map(p => [p.nome, p]));
-    document.querySelectorAll(".pericias div").forEach(div => {
-        const nome = div.querySelector("span")?.innerText?.trim().split(' ')[0] ?? ""; // Pega o nome sem (Attr)
-        const numInput = div.querySelector("#pericia" + nome);
-        const check = div.querySelector("#treino" + nome);
-        // NOVO: Adiciona o input de bônus
-        const bonusInput = document.getElementById("bonus" + nome); 
-        
-        if (nome && mapaPericias.has(nome)) {
-            const p = mapaPericias.get(nome);
-            if (numInput) numInput.value = p.valor ?? 0;
-            if (check) check.checked = !!p.treinado;
-            // NOVO: Preenche o campo de bônus
-            if (bonusInput) bonusInput.value = p.bonus ?? 0; 
-        }
-    });
+document.querySelectorAll(".pericias div").forEach(div => {
+  const nome = div.querySelector("span")?.innerText?.trim() ?? "";
+  const numInput = div.querySelector("#pericia" + nome);
+  const check = div.querySelector("#treino" + nome);
+  const bonusInput = document.getElementById("bonus" + nome);
+  const attrSelect = div.querySelector("#attr" + nome);
+
+  if (nome && mapaPericias.has(nome)) {
+    const p = mapaPericias.get(nome);
+    if (numInput) numInput.value = p.valor ?? 0;
+    if (check) check.checked = !!p.treinado;
+    if (bonusInput) bonusInput.value = p.bonus ?? 0;
+    if (attrSelect) attrSelect.value = p.atributo ?? "des";
+  }
+});
+
 
     // Inventário
     const invContainer = document.getElementById("inventarioContainer");

@@ -5,8 +5,6 @@ import { getFirestore, collection, addDoc, getDocs, getDoc, doc, setDoc, updateD
 // Importa a função de coleta do formulário para salvar
 import { coletarFichaDoFormulario, preencherFormularioComFicha } from "./formulario.js";
 
-
-// 1) Cole seu firebaseConfig aqui
 export const firebaseConfig = {
     apiKey: "AIzaSyBLYyVAn1lY6cvHHEun9MxMsCPNPum6eps",
     authDomain: "solo-2299a.firebaseapp.com",
@@ -26,9 +24,7 @@ export const setFichaAtualId = (id) => fichaAtualId = id;
 
 export const COL = "fichasTormenta20";
 
-// ========================
 // Funções CRUD
-// ========================
 
 export async function salvarFicha() {
     const ficha = coletarFichaDoFormulario();

@@ -1,9 +1,7 @@
 // util.js
 import { atualizarInventario } from "./calculos.js"; // Para recalcular ao adicionar/remover item
 
-// ========================
 // Funções de Ataques, Inventário e Magias
-// ========================
 
 // Adicionar ataques (movido de script.js)
 document.getElementById("addAtaqueBtn")?.addEventListener("click", () => {

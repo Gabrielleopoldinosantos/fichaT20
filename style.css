@@ -1,298 +1,352 @@
-/* Reset básico */
+/*style.css*/
 body {
- background: #f8f3e7; /* pergaminho */
- color: #2c1b10;
- font-family: "Times New Roman", serif;
- display: flex;
- flex-direction: column;
- align-items: center;
- padding: 16px;
- margin: 0;
+background: #f8f3e7; /* pergaminho */
+color: #2c1b10;
+font-family: "Times New Roman", serif;
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 16px;
+margin: 0;
 }
 
 /* Cabeçalho */
 h1 {
- font-family: "Trajan Pro", serif;
- color: #8b0000;
- text-shadow: 2px 2px 0 #000;
- margin: 16px 0;
- text-align: center;
- font-size: 1.8em;
- border-bottom: 3px solid #b22222;
- padding-bottom: 6px;
+font-family: "Trajan Pro", serif;
+color: #8b0000;
+text-shadow: 2px 2px 0 #000;
+margin: 16px 0;
+text-align: center;
+font-size: 1.8em;
+border-bottom: 3px solid #b22222;
+padding-bottom: 6px;
 }
 
 /* Botões */
 button {
- background: linear-gradient(#8b0000, #5a0000);
- color: #f8f3e7;
- border: 2px solid #b22222;
- border-radius: 6px;
- padding: 8px 14px;
- cursor: pointer;
- margin: 4px;
- font-weight: bold;
- transition: 0.2s;
- font-size: 0.9em;
- box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+background: linear-gradient(#8b0000, #5a0000);
+color: #f8f3e7;
+border: 2px solid #b22222;
+border-radius: 6px;
+padding: 8px 14px;
+cursor: pointer;
+margin: 4px;
+font-weight: bold;
+transition: 0.2s;
+font-size: 0.9em;
+box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
 }
 
 button:hover {
- background: linear-gradient(#a00000, #700000);
- transform: scale(1.05);
+background: linear-gradient(#a00000, #700000);
+transform: scale(1.05);
 }
 
-/* Caixa geral */
+/* * CONTAINER PRINCIPAL
+* REESTABELECIDO GRID DE 3 COLUNAS para simplificar o layout e responsividade.
+*/
+.ficha-container {
+display: grid;
+max-width: 900px; 
+width: 100%;
+/* auto-fit: cria de 1 a 3 colunas, mínimo de 280px por coluna */
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+gap: 14px; /* O espaçamento entre as caixas */
+margin: 14px 0;
+justify-items: center;
+}
+
+/* Definição de Span para as caixas */
+
+/* Caixas Largas (Ocupam as 3 Colunas) */
+.detalhes, 
+.ataques-caixa, 
+.proficiencias-caixa, 
+.habilidades-caixa, 
+.magias-caixa, 
+.inventario-quadro { 
+grid-column: span 3; 
+}
+
+/* Caixas de Perícias (Ocupa 2 Colunas e Centraliza - CORREÇÃO APLICADA) */
+.pericias-caixa {
+  /* Ocupa duas colunas (span 2) */
+  grid-column: span 2;
+  /* Centraliza a caixa dentro do espaço disponível no grid */
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%; 
+  max-width: 600px; /* Adiciona um limite de largura para melhor centralização */
+}
+
+/* Caixas Pequenas (Ocupam 1 Coluna) */
+.atributos-caixa, 
+.status-caixa, 
+.defesa-caixa { 
+grid-column: span 1; 
+}
+
+/* Caixa geral (ajustada para o Grid) */
 .caixa {
- border: 3px solid #5a0000;
- border-radius: 10px;
- padding: 12px;
- margin: 14px 0;
- background: #fffaf0;
- box-shadow: 0 0 12px rgba(0,0,0,0.3);
- width: 100%;
- max-width: 900px;
- box-sizing: border-box;
+border: 3px solid #5a0000;
+border-radius: 10px;
+padding: 12px;
+margin: 0; 
+background: #fffaf0;
+box-shadow: 0 0 12px rgba(0,0,0,0.3);
+width: 100%;
+max-width: 100%; 
+box-sizing: border-box;
 }
 
 /* Títulos */
 .caixa h2 {
- background: linear-gradient(#8b0000, #5a0000);
- color: #f8f3e7;
- text-align: center;
- font-size: 1.1em;
- margin: -12px -12px 12px -12px;
- padding: 8px;
- border-bottom: 3px solid #b22222;
- text-transform: uppercase;
- letter-spacing: 1px;
- font-family: "Trajan Pro", serif;
+background: linear-gradient(#8b0000, #5a0000);
+color: #f8f3e7;
+text-align: center;
+font-size: 1.1em;
+margin: -12px -12px 12px -12px;
+padding: 8px;
+border-bottom: 3px solid #b22222;
+text-transform: uppercase;
+letter-spacing: 1px;
+font-family: "Trajan Pro", serif;
 }
 
 /* Labels e inputs */
 label {
- display: inline-block;
- margin: 3px 6px;
- font-weight: bold;
- font-size: 0.9em;
- color: #3a1a1a;
+display: inline-block;
+margin: 3px 6px;
+font-weight: bold;
+font-size: 0.9em;
+color: #3a1a1a;
 }
 
 input[type="text"], input[type="number"], textarea, select {
- border: 2px solid #8b0000;
- padding: 6px 8px;
- border-radius: 6px;
- background: #fffdf8;
- color: #2c1b10;
- font-family: inherit;
- width: auto;
- max-width: 100%;
- box-sizing: border-box;
- box-shadow: inset 1px 1px 3px rgba(0,0,0,0.15);
+border: 2px solid #8b0000;
+padding: 6px 8px;
+border-radius: 6px;
+background: #fffdf8;
+color: #2c1b10;
+font-family: inherit;
+width: auto;
+max-width: 100%;
+box-sizing: border-box;
+box-shadow: inset 1px 1px 3px rgba(0,0,0,0.15);
 }
 
-/* Atributos */
+/* Atributos (Ajustado: 3 colunas internas em vez de 6) */
 .atributos {
- display: grid;
- grid-template-columns: repeat(6, 1fr);
- gap: 8px;
- text-align: center;
+display: grid;
+grid-template-columns: repeat(3, 1fr); 
+gap: 8px;
+text-align: center;
 }
 
 .atributos div {
- border: 2px solid #8b0000;
- border-radius: 6px;
- padding: 8px;
- font-weight: bold;
- background: #fdf6e3;
- box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+border: 2px solid #8b0000;
+border-radius: 6px;
+padding: 8px;
+font-weight: bold;
+background: #fdf6e3;
+box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
 }
 
 .atributos input {
- width: 100%;
- max-width: 50px;
- text-align: center;
- font-weight: bold;
- font-size: 1em;
- background: #fff;
+width: 100%;
+max-width: 50px;
+text-align: center;
+font-weight: bold;
+font-size: 1em;
+background: #fff;
 }
 
-/* Status PV/PM */
-#pv, #pvMax, 
-#pm, #pmMax {
- width: 55px;
- text-align: center;
- font-weight: bold;
- font-size: 1em;
- padding: 3px 4px;
- color:#8b0000;
- border: 2px solid #8b0000;
- background: #fff8f8;
- box-shadow: 0 0 6px rgba(139,0,0,0.5);
-}
-
-
-#pm, #pmMax {
- border: 2px solid #00008b; /* Azul Escuro */
- background: #e7e7e7; /* Fundo azul claro/cinza suave para destacar */
- color: #00008b; /* Cor do texto azul escuro */
- box-shadow: 0 0 6px rgba(0,0,139,0.5); /* Sombra azul para o destaque */
-}
-
-/* Perícias */
+/* Perícias (COM CENTRALIZAÇÃO E ESPAÇO AMPLO) */
 .pericias {
- display: grid;
- grid-template-columns: repeat(2, 1fr);
- gap: 6px;
+display: grid;
+/* Centraliza a lista de perícias no meio da caixa de largura total (span 3) */
+max-width: 580px; 
+margin: 0 auto; 
+
+/* Mantém a lista interna de duas colunas */
+grid-template-columns: repeat(2, 1fr); 
+gap: 6px;
+text-align: center; 
 }
 
 .pericias div {
- display: flex;
- justify-content: space-between;
- align-items: center;
- border-bottom: 1px dashed #8b0000;
- padding: 3px;
- gap: 6px;
- flex-wrap: wrap;
+display: flex;
+/* Alinha o nome da perícia na esquerda e os inputs na direita */
+justify-content: space-between;
+align-items: center;
+border-bottom: 1px dashed #8b0000;
+padding: 3px;
+gap: 4px; 
+flex-wrap: nowrap; 
+font-size: 0.9em; 
+}
+
+/* BLOCO para alinhar os inputs de número (Correto e Alinhado) */
+.pericias input[type="checkbox"] {
+margin-right: 4px;
 }
 
 .pericias input[type="number"] {
- width: 45px;
- text-align: center;
+width: 40px; /* Largura fixa e uniforme */
+text-align: right; 
+padding: 3px 4px;
+margin-left: 4px;
+box-sizing: border-box;
+}
+
+/* Estilização específica para o valor total (readonly) */
+.pericias input[readonly] {
+font-weight: bold;
+background: #fdf6e3;
+border: 1px solid #5a0000;
+}
+
+/* Contêiner para o nome da Perícia para alinhamento */
+.pericias div span:first-child {
+flex-grow: 1; /* Permite que o nome da perícia ocupe o espaço restante */
+text-align: left; 
+white-space: nowrap; 
+overflow: hidden;
+text-overflow: ellipsis;
 }
 
 /* Ataques */
 .ataque {
- display: flex;
- flex-wrap: wrap;
- gap: 6px;
- margin-bottom: 6px;
+display: flex;
+flex-wrap: wrap;
+gap: 6px;
+margin-bottom: 6px;
 }
 
 .ataque input {
- flex: 1 1 120px;
- padding: 4px;
- max-width: 160px;
- box-sizing: border-box;
+flex: 1 1 120px;
+padding: 4px;
+max-width: 160px;
+box-sizing: border-box;
 }
 
 .ataque button {
- background: #b22222;
- color: #fff;
- border: 2px solid #700000;
- padding: 4px 8px;
- border-radius: 4px;
- cursor: pointer;
+background: #b22222;
+color: #fff;
+border: 2px solid #700000;
+padding: 4px 8px;
+border-radius: 4px;
+cursor: pointer;
 }
 
 .ataque button:hover {
- background: #a00000;
+background: #a00000;
 }
 
 /* Textareas */
 textarea {
- width: 100%;
- min-height: 80px;
- resize: vertical;
- border: 2px solid #8b0000;
- border-radius: 6px;
- background: #fffdf8;
- padding: 6px;
- max-height: 400px;
- box-shadow: inset 1px 1px 4px rgba(0,0,0,0.15);
+width: 100%;
+min-height: 80px;
+resize: vertical;
+border: 2px solid #8b0000;
+border-radius: 6px;
+background: #fffdf8;
+padding: 6px;
+max-height: 400px;
+box-shadow: inset 1px 1px 3px rgba(0,0,0,0.15);
 }
 
 /* Inventário */
 .quadro {
- border: 2px solid #8b0000;
- border-radius: 8px;
- margin-bottom: 14px;
- overflow: hidden;
- box-shadow: 0 0 10px rgba(0,0,0,0.3);
- width: 100%;
- max-width: 900px;
- background: #fffaf0;
+border: 2px solid #8b0000;
+border-radius: 8px;
+margin: 0; 
+overflow: hidden;
+box-shadow: 0 0 10px rgba(0,0,0,0.3);
+width: 100%;
+max-width: 100%; 
+background: #fffaf0;
 }
 
 .quadro-header {
- display: flex;
- justify-content: space-between;
- align-items: center;
- background: linear-gradient(#8b0000, #5a0000);
- color: #f8f3e7;
- padding: 8px 12px;
- flex-wrap: wrap;
- gap: 6px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+background: linear-gradient(#8b0000, #5a0000);
+color: #f8f3e7;
+padding: 8px 12px;
+flex-wrap: wrap;
+gap: 6px;
 }
 
 .quadro-header h2 {
- margin: 0;
- font-size: 1em;
+margin: 0;
+font-size: 1em;
 }
 
 .lista-itens {
- padding: 10px;
+padding: 10px;
 }
 
 /* INVENTÁRIO - DESKTOP/GRID LAYOUT (CORREÇÃO DE PESO) */
 .itemInventario {
- display: grid;
- /* Nome(3fr) | Qtd(1fr) | Peso(1fr) | Total(1fr) | Descrição(auto) | Remover(auto) */
- grid-template-columns: 3fr 1fr 1fr 1fr auto auto; align-items: center;
- gap: 8px; /* Aumento do gap para mais espaço */
- margin-bottom: 8px;
- padding: 6px 0;
- border-bottom: 1px dashed #8b0000;
+display: grid;
+/* Nome(3fr) | Qtd(1fr) | Peso(1fr) | Total(1fr) | Descrição(auto) | Remover(auto) */
+grid-template-columns: 3fr 1fr 1fr 1fr auto auto; align-items: center;
+gap: 8px; 
+margin-bottom: 8px;
+padding: 6px 0;
+border-bottom: 1px dashed #8b0000;
 }
 
 .itemInventario input {
 border: 1px solid #a00;
- border-radius: 4px;
- padding: 4px;
- width: 100%; 
- box-sizing: border-box;
- margin: 0;
+border-radius: 4px;
+padding: 4px;
+width: 100%; 
+box-sizing: border-box;
+margin: 0;
 }
 
 .itemNome {
- font-weight: bold;
+font-weight: bold;
 }
 
 .itemQtd, .itemPeso {
- text-align: center;
- max-width: 60px; justify-self: center; /* Centraliza o input na célula do grid */
+text-align: center;
+max-width: 60px; justify-self: center; /* Centraliza o input na célula do grid */
 }
 
 .itemInventario .itemTotal {
 font-weight: bold;
- text-align: center;
- background: #f1e9d9; 
- padding: 4px;
- border-radius: 4px;
- min-width: 45px; max-width: 60px; /* Limita a largura do total */
- justify-self: center; /* Centraliza o total na célula do grid */
+text-align: center;
+background: #f1e9d9; 
+padding: 4px;
+border-radius: 4px;
+min-width: 45px; max-width: 60px; /* Limita a largura do total */
+justify-self: center; /* Centraliza o total na célula do grid */
 }
 
 .itemInventario button {
- background: #a00;
- color: white;
- border: none;
- border-radius: 4px;
- padding: 4px 8px;
- cursor: pointer;
- white-space: nowrap; 
+background: #a00;
+color: white;
+border: none;
+border-radius: 4px;
+padding: 4px 8px;
+cursor: pointer;
+white-space: nowrap; 
 }
 
 /* Oculta temporariamente a descrição em grid */
 .itemInventario .itemDesc {
- grid-column: 1 / -1; 
- margin-top: 4px;
+grid-column: 1 / -1; 
+margin-top: 4px;
 }
 
 #statusInventario {
- font-weight: bold;
- margin: 8px;
- color: #5a0000;
+font-weight: bold;
+margin: 8px;
+color: #5a0000;
 }
 
 /* ESTILOS DE MAGIAS 
@@ -352,126 +406,420 @@ min-height: 60px;
 }
 
 
-/* RESPONSIVIDADE (MANTIDA E ADAPTADA) */
+/* RESPONSIVIDADE */
+
+@media (min-width: 900px) {
+ .ficha-container {
+  grid-template-columns: repeat(3, 1fr); /* garante 3 colunas em desktop */
+  justify-items: center;
+ }
+
+ .pericias-caixa {
+  grid-column: 1 / -1;  /* ocupa as 2 colunas do meio */
+  justify-self: center;
+  width: 100%;
+  max-width: 600px;
+ }
+}
+
+
 @media (max-width: 768px) {
- h1 {
- font-size: 1.4em;
- }
- .atributos {
- grid-template-columns: repeat(3, 1fr);
- }
+h1 {
+font-size: 1.4em;
+}
+
+/* No mobile, o grid do container principal volta a 1 coluna */
+.ficha-container {
+grid-template-columns: 1fr;
+gap: 14px;
+}
+/* E todas as caixas voltam a ocupar 1 coluna (span 1) */
+.detalhes, 
+.proficiencias-caixa, 
+.habilidades-caixa, 
+.magias-caixa,
+.inventario-quadro,
+.pericias-caixa, /* Forçado a span 1 aqui para mobile */
+.ataques-caixa,
+.atributos-caixa,
+.status-caixa,
+.defesa-caixa {
+grid-column: span 1 !important; /* !important garante que sobrescreve o grid-column: 2 / 4 */
+justify-self: stretch; /* Garante que volta a ocupar a largura total do container pai */
+margin-left: 0; /* Remove margens de centralização */
+margin-right: 0;
+}
+
+
+/* Atributos internos no modo mobile (2x3) */
+.atributos {
+grid-template-columns: repeat(2, 1fr);
+}
+
 .pericias {
+  /* No mobile, voltamos a uma coluna de lista para melhor leitura */
  grid-template-columns: 1fr;
- }
- .ataque input {
- flex: 1 1 100%;
- max-width: 100%;
- }
- .quadro-header {
- flex-direction: column;
- align-items: flex-start;
- }
+  max-width: none; /* Usa 100% da largura da tela */
+  margin: 0;
+}
+.ataque input {
+flex: 1 1 100%;
+max-width: 100%;
+}
+.quadro-header {
+flex-direction: column;
+align-items: flex-start;
+}
 .magia-linha input,
- .magia-linha select,
+.magia-linha select,
 .magia-linha button {
 flex: 1 1 100%;
- max-width: 100%;
+max-width: 100%;
 }
- .magiaNome {
- font-size: 1.1em;
+.magiaNome {
+font-size: 1.1em;
 }
 .caixa.defesa {
- grid-template-columns: 1fr;
- }
+grid-template-columns: 1fr;
+}
 
 
- .itemInventario {
- /* Layout vertical e flexível para telas menores */
- display: flex;
- flex-direction: column;
- align-items: stretch;
- border: 2px solid #5a0000;
- border-radius: 8px;
- padding: 8px;
- margin-bottom: 16px;
- background: #fffdf8;
- }
+.itemInventario {
+/* Layout vertical e flexível para telas menores */
+display: flex;
+flex-direction: column;
+align-items: stretch;
+border: 2px solid #5a0000;
+border-radius: 8px;
+padding: 8px;
+margin-bottom: 16px;
+background: #fffdf8;
+}
 
- .itemInventario input,
+.itemInventario input,
 .itemInventario .itemTotal,
- .itemInventario .itemDesc {
- flex: 1 1 100%;
- margin-bottom: 4px;
- }
-
- /* Agrupamento de Qtd/Peso/Total e Botões para melhor visualização */
- .item-dados-secundarios {
- display: flex;
- gap: 6px;
- width: 100%;
- margin-bottom: 6px;
- }
- .item-dados-secundarios > * {
- flex: 1; /* Divide o espaço entre Qtd, Peso e Total */
- }
-
- .item-acoes {
- display: flex;
- gap: 6px;
- width: 100%;
- margin-top: 6px;
- }
- .item-acoes button {
- flex: 1; /* Divide o espaço entre Descrição e Remover */
+.itemInventario .itemDesc {
+flex: 1 1 100%;
+margin-bottom: 4px;
 }
+
+/* Agrupamento de Qtd/Peso/Total e Botões para melhor visualização */
+.item-dados-secundarios {
+display: flex;
+gap: 6px;
+width: 100%;
+margin-bottom: 6px;
 }
+.item-dados-secundarios > * {
+flex: 1; /* Divide o espaço entre Qtd, Peso e Total */
+}
+
+.item-acoes {
+display: flex;
+gap: 6px;
+width: 100%;
+margin-top: 6px;
+}
+.item-acoes button {
+flex: 1; /* Divide o espaço entre Descrição e Remover */
+}
+
 @media (max-width: 480px) {
- body {
- padding: 6px;
- }
+body {
+padding: 6px;
+}
 h1 {
- font-size: 1.2em;
- }
+font-size: 1.2em;
+}
 button {
- font-size: 0.8em;
- padding: 4px 8px;
- display: block;
- width: 100%;
- margin: 6px 0;
- }
- .atributos {
- grid-template-columns: repeat(2, 1fr);
- } 
- label {
+font-size: 0.8em;
+padding: 4px 8px;
 display: block;
- margin: 4px 0;
- }
- input[type="text"], 
- input[type="number"], 
- textarea, 
- select, 
- button {
- width: 100%;
+width: 100%;
+margin: 6px 0;
+}
+.atributos {
+grid-template-columns: repeat(2, 1fr);
+} 
+label {
+display: block;
+margin: 4px 0;
+}
+input[type="text"], 
+input[type="number"], 
+textarea, 
+select, 
+button {
+width: 100%;
 max-width: 100%;
- box-sizing: border-box;
- }
- .ataque {
- flex-direction: column;
- align-items: stretch;
- }
- .ataque input, 
- .ataque button {
- max-width: 100%;
- flex: 1 1 100%;
- }
- .itemInventario {
- flex-direction: column;
- align-items: stretch;
- }
+box-sizing: border-box;
+}
+.ataque {
+flex-direction: column;
+align-items: stretch;
+}
+.ataque input, 
+.ataque button {
+max-width: 100%;
+flex: 1 1 100%;
+}
+.itemInventario {
+flex-direction: column;
+align-items: stretch;
+}
 }
 
 @media (max-width: 360px) {
- .atributos {
- grid-template-columns: 1fr;
- }
+.atributos {
+grid-template-columns: 1fr;
+}
+}}
+
+/* --- INÍCIO DOS ESTILOS DA BARRA DE STATUS --- */
+
+.status-bar-container {
+  margin-bottom: 12px;
+}
+
+.status-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 4px;
+  font-size: 0.9em;
+  color: #5a0000;
+}
+
+.status-bar {
+ position: relative;
+ background-color: #ccc;
+ border-radius: 8px;
+ height: 30px;
+ width: 100%;
+ overflow: hidden;
+ margin: 5px 0;
+}
+
+/* Barra preenchida */
+.status-bar-fill {
+ height: 100%;
+ width: 0;
+ background-color: #ff4d4d; /* PV */
+ transition: width 0.3s ease;
+ border-radius: 8px 0 0 8px;
+}
+
+.status-bar.pv .status-bar-fill {
+  background: linear-gradient(to right, #ff4d4d, #b20000);
+}
+.status-bar.pm .status-bar-fill {
+  background: linear-gradient(to right, #4d79ff, #0026b2);
+}
+
+/* Inner container com inputs */
+.status-bar-inner {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ display: flex;
+ justify-content: center;
+ align-items: center; /* centraliza verticalmente */
+ gap: 5px; /* espaço entre inputs e separador */
+ padding: 0 5px; /* evita que números encostem na borda */
+ box-sizing: border-box;
+}
+
+/* Inputs da barra */
+.status-bar-inner input {
+ height: 70%; /* ajusta para caber dentro da barra */
+ text-align: center;
+ border: none;
+ border-radius: 4px;
+ font-weight: bold;
+ font-size: 0.9rem;
+ background: rgba(255, 255, 255, 0.3); /* leve transparência */
+ color: #fff;
+}
+
+/* Estilo dos Inputs */
+.status-input-current,
+.status-input-max {
+  /* 1. Reset visual completo da caixa */
+  border: none;
+  border: 0 !important; /* Força a remoção de qualquer borda */
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  box-shadow: none;
+  box-shadow: 0 0 0 0 !important; /* Força a remoção de qualquer sombra (padrão do navegador) */
+  outline: none; /* Remove o contorno de foco (laranja/azul) */
+  
+  /* 2. Estilos do texto */
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1em;
+  /* Aumenta a largura para 50px para acomodar números maiores e evitar quebra */
+  width: 50px;
+  /* 3. Reset de setas (spinners) */
+  -moz-appearance: textfield; 
+  
+}
+
+/* --- CORREÇÃO DE ESPECIFICIDADE PARA REMOVER BORDA/FUNDO DO INPUT NUMBER --- */
+/* Esta regra visa anular qualquer estilo genérico que esteja sendo aplicado */
+
+#pv-input, #pvMax-input, 
+#pm-input, #pmMax-input {
+  /* Força a remoção de qualquer borda vinda de regras genéricas (ex: input[type="number"]) */
+  border: none !important;
+  border-width: 0 !important;
+  /* Força a remoção de qualquer fundo */
+  background: transparent !important;
+  box-shadow: none !important;
+}
+/* -------------------------------------------------------------------------- */
+
+/* Remove setas em Chrome/Safari */
+.status-input-current::-webkit-inner-spin-button,
+.status-input-current::-webkit-outer-spin-button,
+.status-input-max::-webkit-inner-spin-button,
+.status-input-max::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Separador */
+.status-bar-inner .status-separator {
+ font-weight: bold;
+ color: #fff;
+}
+
+/* Cor Padrão dos Inputs e Separador (Quando a barra está vazia ou Max) */
+.status-input-max,
+.status-separator {
+  color: #5a0000; 
+  text-shadow: none;
+}
+
+/* Cor do Input ATUAL (Current) por padrão. O JS ajustará isso. */
+.status-input-current {
+  color: #5a0000; 
+  text-shadow: none;
+}
+
+/* Garante que o input, ao ser focado, não mostre a caixa padrão do navegador */
+.status-input-current:focus,
+.status-input-max:focus {
+  background: transparent !important;
+  border: 0 !important; 
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+#armadura {
+  width: 157px; /* ou outro valor que achar visualmente melhor */
+}
+
+#defTotal {
+  font-weight: bold;
+  color: #2c1b10; /* pode trocar a cor */
+  font-size: 1.2em; /* aumenta um pouco o tamanho */
+}
+
+.total-defesa-container {
+  text-align: center;    /* centraliza todo o conteúdo */
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #2c1b10;
+  margin-top: 10px;
+}
+
+/* style.css (Adicionado ao final) */
+
+/* --- NOVO: Estilos de Deslocamento e RD (Ajustados para input de texto) --- */
+
+.deslocamento-container {
+/* Container principal usa flex column para empilhar Deslocamento e RD */
+display: flex;
+flex-direction: column;
+align-items: center; /* Centraliza tudo */
+margin-bottom: 12px;
+text-align: center;
+}
+
+/* Contêiner da linha de Deslocamento (mantido flex para a linha interna) */
+.deslocamento-inputs {
+display: flex;
+justify-content: center; /* Centraliza o conteúdo (m, q, etc.) */
+align-items: center;
+gap: 5px;
+font-size: 1.1em;
+font-weight: bold;
+margin-bottom: 8px; /* Espaço para o RD abaixo */
+}
+
+/* Estilo para os inputs numéricos de Deslocamento */
+.deslocamento-inputs input {
+
+/* Estilos do texto */
+text-align: center;
+font-weight: bold;
+font-size: 1.1em;
+color: #2c1b10; /* Cor escura para o texto */
+
+/* Tamanho dos inputs */
+width: 45px;
+padding: 0;
+margin: 0;
+
+/* Remove setas (spinners) */
+-moz-appearance: textfield;
+}
+
+/* Contêiner da linha de RD (Agora o input ocupa a largura total do contêiner) */
+.rd-input-container {
+display: flex;
+/* Alinha o label e o input, mas permite que o input se expanda */
+justify-content: center;
+align-items: center;
+gap: 5px;
+font-size: 1.1em;
+font-weight: bold;
+width: 100%; /* Garante que o contêiner interno ocupe o máximo */
+}
+
+/* ** MODIFICADO: Estilo para o campo de RD como um input de texto padrão ** */
+.rd-input-container input {
+  /* Herda estilos globais de input (borda, padding, etc.) */
+  /* Sobrescreve estilos de número */
+  text-align: left; /* Texto alinhado à esquerda como nos outros campos */
+  font-size: 0.9em; /* Volta ao tamanho padrão para inputs de texto */
+  
+  /* Permite que o input ocupe o espaço restante */
+  flex-grow: 1; 
+  
+  /* Remove estilos específicos de inputs numéricos que causavam problemas */
+  padding: 6px 8px; /* Padding padrão de inputs */
+  margin: 0; 
+  width: auto; /* Deixa o flex-grow definir a largura */
+  -moz-appearance: initial; /* Reseta a aparência de número */
+}
+.rd-input-container input::-webkit-inner-spin-button,
+.rd-input-container input::-webkit-outer-spin-button {
+-webkit-appearance: initial;
+}
+
+
+/* Remove setas em Chrome/Safari para Deslocamento */
+.deslocamento-inputs input::-webkit-inner-spin-button,
+.deslocamento-inputs input::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+
+/* O separador no deslocamento pode ter a mesma cor do texto */
+.deslocamento-inputs .status-separator {
+color: #2c1b10;
+font-weight: bold;
 }
