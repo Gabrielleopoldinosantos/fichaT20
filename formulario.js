@@ -183,7 +183,7 @@ document.querySelectorAll(".pericias div").forEach(div => {
         div.className = "ataque";
         div.innerHTML = `
       <input type="text" placeholder="Nome do ataque" value="${atk.nome ?? ""}">
-      <input type="number" placeholder="Teste" value="${atk.teste ?? ""}">
+      <input type="text" placeholder="Teste" value="${atk.teste ?? ""}">
       <input type="text" placeholder="Dano" value="${atk.dano ?? ""}">
       <input type="text" placeholder="Crítico" value="${atk.critico ?? ""}">
       <input type="text" placeholder="Alcance" value="${atk.alcance ?? ""}">

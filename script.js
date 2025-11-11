@@ -30,7 +30,8 @@ import {
 import {
     calcularDefesa,
     calcularPericias,
-    atualizarInventario
+    atualizarInventario,
+    calcularCDMagia // < NOVA
 } from "./calculos.js";
 
 
@@ -165,7 +166,7 @@ window.carregarFichaSelecionada = carregarFichaSelecionada;
 
 // Listeners de Perícias
 // Lista de IDs das perícias para adicionar o listener de alteração de atributo
-const pericias = ["Acrobacia", "Adestramento", "Atletismo", "Atuacao", "Cavalgar", "Conhecimento", "Cura", "Diplomacia", "Enganacao", "Fortitude", "Furtividade", "Guerra", "Iniciativa", "Intimidacao", "Intuicao", "Jogatina", "Ladinagem", "Luta", "Misticismo", "Nobreza", "Oficio", "Percepcao", "Pilotagem", "Pontaria", "Reflexos", "Religiao", "Sobrevivencia", "Vontade"];
+const pericias = ["Acrobacia", "Adestramento", "Atletismo", "Atuacao", "Cavalgar", "Conhecimento", "Cura", "Diplomacia", "Enganacao", "Fortitude", "Furtividade", "Guerra", "Iniciativa", "Intimidacao", "Intuicao","Investigacao", "Jogatina", "Ladinagem", "Luta", "Misticismo", "Nobreza", "Oficio", "Percepcao", "Pilotagem", "Pontaria", "Reflexos", "Religiao", "Sobrevivencia", "Vontade"];
 
 // NOVO: Listeners de Deslocamento
 ["deslocamento-m", "deslocamento-q"].forEach(id => {
@@ -187,6 +188,19 @@ pericias.forEach(nome => {
     document.getElementById(id)?.addEventListener("input", calcularPericias);
 });
 
+// Listeners de CD da Magia
+["nivel", "for", "des", "con", "int", "sab", "car"].forEach(id => {
+    document.getElementById(id)?.addEventListener("input", calcularCDMagia);
+});
+
+["for", "cargaMaxima", "limiteItens"].forEach(id => {
+    document.getElementById(id)?.addEventListener("input", atualizarInventario);
+});
+
+// Listener para o atributo base e o bônus manual da CD
+document.getElementById("attrCD")?.addEventListener("change", calcularCDMagia);
+document.getElementById("bonusCD")?.addEventListener("input", calcularCDMagia);
+
 document.querySelectorAll(".pericias input[type=checkbox]").forEach(cb => {
     cb.addEventListener("change", calcularPericias);
 });
@@ -194,6 +208,7 @@ document.querySelectorAll(".pericias input[type=checkbox]").forEach(cb => {
 // Listeners de Inventário
 document.getElementById("addItemBtn")?.addEventListener("click", () => criarItemInventario());
 document.getElementById("for")?.addEventListener("input", atualizarInventario);
+
 
 // Listener de Magias
 document.getElementById("addMagiaBtn")?.addEventListener("click", () => criarMagia());
@@ -247,10 +262,11 @@ toggleDarkModeBtn?.addEventListener('click', toggleDarkMode);
 window.addEventListener("load", () => {
     listarFichas();
     initDarkMode(); // Inicializa o modo escuro
-    calcularDefesa();
+    calcularDefesa();   
     calcularPericias();
     atualizarInventario();
     atualizarStatus(); // Chama a atualização de status (PV/PM) na inicialização
+    calcularCDMagia();
 });
 
 // Manter a função gvn se ela for usada em outros lugares no script.

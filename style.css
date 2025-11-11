@@ -11,15 +11,21 @@ margin: 0;
 }
 
 /* Cabeçalho */
+/* style.css (MODIFICAR) */
+
 h1 {
-font-family: "Trajan Pro", serif;
-color: #8b0000;
-text-shadow: 2px 2px 0 #000;
-margin: 16px 0;
-text-align: center;
-font-size: 1.8em;
-border-bottom: 3px solid #b22222;
-padding-bottom: 6px;
+    font-family: "Trajan Pro", serif;
+    color: #8b0000;
+    /* REMOÇÃO DE TEXT-SHADOW: Remove o efeito 3D que pode alargar o H1 */
+    text-shadow: none; 
+    
+    margin: 16px auto; /* 'auto' nas laterais garante centralização perfeita */
+    max-width: fit-content; /* Garante que o H1 não seja maior que o texto */
+    
+    text-align: center;
+    font-size: 1.8em;
+    border-bottom: 3px solid #b22222;
+    padding-bottom: 6px;
 }
 
 /* Botões */
@@ -822,4 +828,122 @@ margin: 0;
 .deslocamento-inputs .status-separator {
 color: #2c1b10;
 font-weight: bold;
+}
+
+/* --- ESTILOS DE MAGIAS (ADICIONADOS/MODIFICADOS) --- */
+
+.magias-header {
+    /* Usa Flexbox para alinhar os 3 componentes (Botão, Título e CD) */
+    display: flex;
+    justify-content: space-between; /* Espalha os itens */
+    align-items: center;
+    /* Herda o estilo do h2 antigo para a linha inferior e fundo */
+    background: linear-gradient(#8b0000, #5a0000);
+    margin: -12px -12px 12px -12px; /* Espaça corretamente dentro da .caixa */
+    padding: 8px 12px;
+    border-bottom: 3px solid #b22222;
+}
+
+.magias-header h2 {
+    /* Volta o h2 ao estilo de um título centralizado, mas sem fundo */
+    margin: 0;
+    padding: 0;
+    background: none;
+    color: #f8f3e7;
+    text-align: center;
+    font-size: 1.1em;
+    flex-grow: 1; /* Permite que o título ocupe o espaço central */
+    white-space: nowrap; /* Evita quebra de linha no título */
+    border-bottom: none !important;
+}
+
+/* Esconde o botão de adicionar magia dentro do novo header no mobile */
+.magias-header button {
+    order: -1; /* Força o botão para a esquerda (primeiro item) */
+    background: #5a0000;
+    color: #f8f3e7;
+    border: 2px solid #3a0000;
+    font-size: 0.8em;
+    padding: 4px 8px;
+}
+
+/* Estilo do container da CD da Magia (canto direito) */
+.cd-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    /* Cor de fundo para dar destaque ao bloco de CD */
+    background: rgba(0, 0, 0, 0.1); 
+    padding: 2px 6px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+    color: #f8f3e7; /* Cor do texto (rótulo) */
+    font-weight: normal; /* Texto mais leve */
+    font-size: 0.9em;
+    min-width: 150px; 
+}
+
+.cd-container label {
+    color: #f8f3e7;
+    font-size: 1em; /* Tamanho maior para o rótulo */
+    margin: 0;
+    font-weight: bold;
+}
+
+/* Inputs e Selects dentro do container da CD */
+.cd-container select {
+    border: 1px solid #700000; /* Borda mais definida */
+    background: #fffdf8; /* Fundo mais claro */
+    color: #2c1b10;
+    padding: 3px; /* Padding maior */
+    border-radius: 4px;
+    font-size: 0.85em;
+    text-align: center;
+    width: 50px; /* Levemente mais largo */
+}
+
+.cd-container input {
+    border: 1px solid #700000;
+    background: #fffdf8;
+    color: #2c1b10;
+    padding: 3px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    text-align: center;
+    width: 40px;
+}
+
+.cd-container .cd-valor {
+    /* Efeito de destaque no pergaminho */
+    background: #5a0000; 
+    color: #f8f3e7;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 1.1em; /* Aumenta o tamanho para destaque */
+    font-weight: bold;
+    border: 1px solid #b22222;
+}
+
+.cd-container span {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+/* Ajuste de responsividade para o cabeçalho da Magia (opcional) */
+@media (max-width: 768px) {
+    .magias-header {
+        flex-wrap: wrap;
+    }
+    .magias-header button {
+        /* Ocupa a largura total para quebrar a linha */
+        flex-basis: 100%; 
+        margin-bottom: 8px;
+    }
+    .cd-container {
+        /* Ocupa a largura total para quebrar a linha */
+        flex-basis: 100%;
+        justify-content: center;
+        padding-top: 4px;
+    }
 }

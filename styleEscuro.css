@@ -151,3 +151,67 @@
     /* Mantém a cor original do item, mas ajusta a borda */
     border-bottom: 1px dashed #4d4d4d !important;
 }
+
+/* styleEscuro.css (ADICIONAR NO FINAL) */
+
+/* Estilos para o Cabeçalho de Magias (Header) */
+.dark-mode .magias-header {
+    /* Garante que o fundo do header escuro seja aplicado */
+    background: linear-gradient(#4d4d4d, #383838) !important;
+    /* Garante que não haja borda inferior visível no modo escuro também */
+    border-bottom: none !important; 
+}
+
+/* Estilos para o Container da CD da Magia */
+.dark-mode .cd-container {
+    background: #333333 !important; /* Fundo escuro para o bloco */
+    border: 1px solid #555555 !important;
+    color: #f0f0f0 !important;
+}
+
+/* Rótulo "CD da Magia" */
+.dark-mode .cd-container label {
+    color: #f0f0f0 !important;
+}
+
+/* Atributo Select */
+.dark-mode .cd-container select {
+    border: 1px solid #555555 !important; 
+    background: #2c2c2c !important; /* Fundo mais escuro */
+    color: #f0f0f0 !important;
+}
+
+/* Valor Calculado da CD (o número principal) */
+.dark-mode .cd-container .cd-valor {
+    background: #666666 !important; /* Destaque cinza */
+    color: #f0f0f0 !important;
+    border: 1px solid #888888 !important;
+}
+
+/* Símbolo de adição/separador */
+.dark-mode .cd-container span {
+    color: #f0f0f0 !important;
+}
+
+/* Bônus Manual (Input) */
+.dark-mode .cd-container input {
+    border: 1px solid #555555 !important;
+    background: #2c2c2c !important;
+    color: #f0f0f0 !important;
+}
+
+/* Botão de Adicionar Magia (Ajuste de cor) */
+.dark-mode .magias-header button {
+    background: linear-gradient(#666666, #4d4d4d) !important;
+    border-color: #888888 !important;
+    color: #f0f0f0 !important;
+}
+
+/* styleEscuro.css (ADICIONAR/MODIFICAR) */
+
+.dark-mode .magias-header h2 {
+    /* ANULA O GRADIENTE DO H2 GENÉRICO NO MODO ESCURO */
+    background: none !important;
+    border-bottom: none !important; 
+    color: #f0f0f0 !important; /* Mantém a cor do texto clara */
+}

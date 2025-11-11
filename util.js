@@ -10,7 +10,7 @@ document.getElementById("addAtaqueBtn")?.addEventListener("click", () => {
     div.className = "ataque";
     div.innerHTML = `
       <input type="text" placeholder="Nome do ataque">
-      <input type="number" placeholder="Teste">
+      <input type="text" placeholder="Teste">
       <input type="text" placeholder="Dano">
       <input type="text" placeholder="Crítico">
       <input type="text" placeholder="Alcance">

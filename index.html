@@ -94,7 +94,7 @@
   <div class="caixa defesa-caixa">
   <h2>Defesa</h2>
   <label>
-    Atributo Base:
+    Atributo Base:  
     <select id="defAtributo">
       <option value="des" selected>Destreza</option>
       <option value="for">Força</option>
@@ -102,6 +102,8 @@
       <option value="int">Inteligência</option>
       <option value="sab">Sabedoria</option>
       <option value="car">Carisma</option>
+      <option value= 0 >Sem atributo</option>
+
     </select>
   </label>
   <label>Armadura: <input type="number" id="armadura" value="0"></label>
@@ -122,7 +124,7 @@
   <div id="ataquesContainer">
     <div class="ataque">
       <input type="text" placeholder="Nome do ataque">
-      <input type="number" placeholder="Teste">
+      <input type="text" placeholder="Teste">
       <input type="text" placeholder="Dano">
       <input type="text" placeholder="Crítico">
       <input type="text" placeholder="Alcance">
@@ -347,6 +349,20 @@
     <input type="number" id="periciaIntuicao" readonly>
   </div>
 
+    <div><span>Investigação</span>
+    <select id="attrInvestigacao">
+      <option value="for">For</option>
+      <option value="des">Des</option>
+      <option value="con">Con</option>
+      <option value="int" selected >Int</option>
+      <option value="sab" >Sab</option>
+      <option value="car">Car</option>
+    </select>
+    <input type="checkbox" id="treinoInvestigacao">
+    <input type="number" id="bonusInvestigacao" placeholder="Bônus" value="0">
+    <input type="number" id="periciaInvestigacao" readonly>
+  </div>
+
   <div><span>Jogatina</span>
     <select id="attrJogatina">
       <option value="for">For</option>
@@ -542,22 +558,45 @@
     <textarea rows="5" id="habilidades" style="width:100%;"></textarea>
   </div>
 
-  <div class="caixa magias-caixa">
-    <h2>Magias
-    <button id="addMagiaBtn" type="button">+ Adicionar Magia</button>
-    </h2>
+<div class="caixa magias-caixa">
+    <div class="magias-header"> 
+        <button id="addMagiaBtn" type="button">+ Adicionar Magia</button>
+        <h2>Magias</h2>
+        <div class="cd-container">
+            <label for="attrCD">CD da Magia</label>
+            <select id="attrCD">
+                <option value="int" selected>INT</option>
+                <option value="sab">SAB</option>
+                <option value="car">CAR</option>
+                <option value="for">FOR</option>
+                <option value="des">DES</option>
+                <option value="con">CON</option>
+                <option value=0>NENHUM</option>
+            </select>
+            <span id="cdTotal" class="cd-valor">10</span>
+            <span>+</span>
+            <input type="number" id="bonusCD" placeholder="Bônus" value="0">
+        </div>
+    </div>
+    
     <div id="magiasContainer">
     </div>
-  </div>
+</div>  
 
-  <div class="quadro inventario-quadro">
+<div class="quadro inventario-quadro">
     <div class="quadro-header">
       <h2>INVENTÁRIO</h2>
       <button type="button" id="addItemBtn">+ Adicionar Item</button>
     </div>
+    
+    <div class="inventario-limites">
+        <label for="cargaMaxima">Carga Máxima Adicional: </label>
+        <input type="number" id="cargaMaxima" value="0" min="0" style="width: 50px;">
+        
+    </div>
     <div id="inventarioContainer" class="lista-itens"></div>
     <p id="statusInventario">Espaço ocupado: 0 / 0</p>
-  </div>
+</div>
 
 </div> <script type="module" src="./script.js"></script>  
 </body>
