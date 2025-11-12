@@ -1,4 +1,4 @@
-/*style.css*/
+/* style.css (Modificado) */
 body {
 background: #f8f3e7; /* pergaminho */
 color: #2c1b10;
@@ -14,18 +14,18 @@ margin: 0;
 /* style.css (MODIFICAR) */
 
 h1 {
-    font-family: "Trajan Pro", serif;
-    color: #8b0000;
-    /* REMOÇÃO DE TEXT-SHADOW: Remove o efeito 3D que pode alargar o H1 */
-    text-shadow: none; 
-    
-    margin: 16px auto; /* 'auto' nas laterais garante centralização perfeita */
-    max-width: fit-content; /* Garante que o H1 não seja maior que o texto */
-    
-    text-align: center;
-    font-size: 1.8em;
-    border-bottom: 3px solid #b22222;
-    padding-bottom: 6px;
+  font-family: "Trajan Pro", serif;
+  color: #8b0000;
+  /* REMOÇÃO DE TEXT-SHADOW: Remove o efeito 3D que pode alargar o H1 */
+  text-shadow: none; 
+  
+  margin: 16px auto; /* 'auto' nas laterais garante centralização perfeita */
+  max-width: fit-content; /* Garante que o H1 não seja maior que o texto */
+  
+  text-align: center;
+  font-size: 1.8em;
+  border-bottom: 3px solid #b22222;
+  padding-bottom: 6px;
 }
 
 /* Botões */
@@ -76,13 +76,13 @@ grid-column: span 3;
 
 /* Caixas de Perícias (Ocupa 2 Colunas e Centraliza - CORREÇÃO APLICADA) */
 .pericias-caixa {
-  /* Ocupa duas colunas (span 2) */
-  grid-column: span 2;
-  /* Centraliza a caixa dentro do espaço disponível no grid */
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%; 
-  max-width: 600px; /* Adiciona um limite de largura para melhor centralização */
+ /* Ocupa duas colunas (span 2) */
+ grid-column: span 2;
+ /* Centraliza a caixa dentro do espaço disponível no grid */
+ margin-left: auto;
+ margin-right: auto;
+ width: 100%; 
+ max-width: 600px; /* Adiciona um limite de largura para melhor centralização */
 }
 
 /* Caixas Pequenas (Ocupam 1 Coluna) */
@@ -98,7 +98,7 @@ border: 3px solid #5a0000;
 border-radius: 10px;
 padding: 12px;
 margin: 0; 
-background: #fffaf0;
+background: #ffffff;
 box-shadow: 0 0 12px rgba(0,0,0,0.3);
 width: 100%;
 max-width: 100%; 
@@ -203,6 +203,15 @@ text-align: right;
 padding: 3px 4px;
 margin-left: 4px;
 box-sizing: border-box;
+}
+
+.pericias input[type="text"] {
+ width: 80px; /* Largura suficiente para o tipo de ofício */
+ padding: 3px 4px;
+ margin-left: 4px;
+ box-sizing: border-box;
+ flex-shrink: 0; /* Impede que ele seja esmagado */
+ text-align: left;
 }
 
 /* Estilização específica para o valor total (readonly) */
@@ -362,8 +371,15 @@ color: #5a0000;
 border: 2px solid #5a0000;
 border-radius: 8px;
 padding: 8px;
-margin-bottom: 12px;
+margin-bottom: 12px !important; 
 background: #fdf6e3;
+}
+
+.magia:last-child {
+    /* Zera a margem inferior */
+    margin-bottom: 0 !important; 
+    /* Adicione !important se a regra de 12px estiver sendo aplicada por um JavaScript inline
+       ou seletor mais específico que você não consegue controlar facilmente. */
 }
 
 .magia-linha {
@@ -415,17 +431,17 @@ min-height: 60px;
 /* RESPONSIVIDADE */
 
 @media (min-width: 900px) {
- .ficha-container {
-  grid-template-columns: repeat(3, 1fr); /* garante 3 colunas em desktop */
-  justify-items: center;
- }
+.ficha-container {
+ grid-template-columns: repeat(3, 1fr); /* garante 3 colunas em desktop */
+ justify-items: center;
+}
 
- .pericias-caixa {
-  grid-column: 1 / -1;  /* ocupa as 2 colunas do meio */
-  justify-self: center;
-  width: 100%;
-  max-width: 600px;
- }
+.pericias-caixa {
+ grid-column: 1 / -1; /* ocupa as 2 colunas do meio */
+ justify-self: center;
+ width: 100%;
+ max-width: 620px;
+}
 }
 
 
@@ -450,7 +466,7 @@ gap: 14px;
 .atributos-caixa,
 .status-caixa,
 .defesa-caixa {
-grid-column: span 1 !important; /* !important garante que sobrescreve o grid-column: 2 / 4 */
+grid-column: span  !important; /* !important garante que sobrescreve o grid-column: 2 / 4 */
 justify-self: stretch; /* Garante que volta a ocupar a largura total do container pai */
 margin-left: 0; /* Remove margens de centralização */
 margin-right: 0;
@@ -463,11 +479,25 @@ grid-template-columns: repeat(2, 1fr);
 }
 
 .pericias {
-  /* No mobile, voltamos a uma coluna de lista para melhor leitura */
- grid-template-columns: 1fr;
-  max-width: none; /* Usa 100% da largura da tela */
-  margin: 0;
+ /* No mobile, voltamos a uma coluna de lista para melhor leitura */
+grid-template-columns: 1fr;
+ max-width: none; /* Usa 100% da largura da tela */
+ margin: 0;
 }
+
+/* *** CORREÇÃO APLICADA AQUI *** */
+/* Garante que o nome da perícia apareça e use o espaço no mobile */
+.pericias div span:first-child {
+    flex-grow: 1; /* Permite que o nome da perícia ocupe o espaço restante */
+    text-align: left; 
+    white-space: normal !important; /* Permite a quebra de linha para nomes longos */
+    overflow: visible !important; /* Garante que o texto não seja cortado */
+    text-overflow: clip !important; /* Garante que o texto não seja cortado */
+    min-width: 70px; /* Garante um tamanho mínimo para visualização */
+}
+/* ***************************** */
+
+
 .ataque input {
 flex: 1 1 100%;
 max-width: 100%;
@@ -584,92 +614,92 @@ grid-template-columns: 1fr;
 /* --- INÍCIO DOS ESTILOS DA BARRA DE STATUS --- */
 
 .status-bar-container {
-  margin-bottom: 12px;
+ margin-bottom: 12px;
 }
 
 .status-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 4px;
-  font-size: 0.9em;
-  color: #5a0000;
+ display: block;
+ font-weight: bold;
+ margin-bottom: 4px;
+ font-size: 0.9em;
+ color: #5a0000;
 }
 
 .status-bar {
- position: relative;
- background-color: #ccc;
- border-radius: 8px;
- height: 30px;
- width: 100%;
- overflow: hidden;
- margin: 5px 0;
+position: relative;
+background-color: #ccc;
+border-radius: 8px;
+height: 30px;
+width: 100%;
+overflow: hidden;
+margin: 5px 0;
 }
 
 /* Barra preenchida */
 .status-bar-fill {
- height: 100%;
- width: 0;
- background-color: #ff4d4d; /* PV */
- transition: width 0.3s ease;
- border-radius: 8px 0 0 8px;
+height: 100%;
+width: 0;
+background-color: #ff4d4d; /* PV */
+transition: width 0.3s ease;
+border-radius: 8px 0 0 8px;
 }
 
 .status-bar.pv .status-bar-fill {
-  background: linear-gradient(to right, #ff4d4d, #b20000);
+ background: linear-gradient(to right, #ff4d4d, #b20000);
 }
 .status-bar.pm .status-bar-fill {
-  background: linear-gradient(to right, #4d79ff, #0026b2);
+ background: linear-gradient(to right, #4d79ff, #0026b2);
 }
 
 /* Inner container com inputs */
 .status-bar-inner {
- position: absolute;
- top: 0;
- left: 0;
- width: 100%;
- height: 100%;
- display: flex;
- justify-content: center;
- align-items: center; /* centraliza verticalmente */
- gap: 5px; /* espaço entre inputs e separador */
- padding: 0 5px; /* evita que números encostem na borda */
- box-sizing: border-box;
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center; /* centraliza verticalmente */
+gap: 5px; /* espaço entre inputs e separador */
+padding: 0 5px; /* evita que números encostem na borda */
+box-sizing: border-box;
 }
 
 /* Inputs da barra */
 .status-bar-inner input {
- height: 70%; /* ajusta para caber dentro da barra */
- text-align: center;
- border: none;
- border-radius: 4px;
- font-weight: bold;
- font-size: 0.9rem;
- background: rgba(255, 255, 255, 0.3); /* leve transparência */
- color: #fff;
+height: 70%; /* ajusta para caber dentro da barra */
+text-align: center;
+border: none;
+border-radius: 4px;
+font-weight: bold;
+font-size: 0.9rem;
+background: rgba(255, 255, 255, 0.3); /* leve transparência */
+color: #fff;
 }
 
 /* Estilo dos Inputs */
 .status-input-current,
 .status-input-max {
-  /* 1. Reset visual completo da caixa */
-  border: none;
-  border: 0 !important; /* Força a remoção de qualquer borda */
-  padding: 0;
-  margin: 0;
-  background: transparent;
-  box-shadow: none;
-  box-shadow: 0 0 0 0 !important; /* Força a remoção de qualquer sombra (padrão do navegador) */
-  outline: none; /* Remove o contorno de foco (laranja/azul) */
-  
-  /* 2. Estilos do texto */
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.1em;
-  /* Aumenta a largura para 50px para acomodar números maiores e evitar quebra */
-  width: 50px;
-  /* 3. Reset de setas (spinners) */
-  -moz-appearance: textfield; 
-  
+ /* 1. Reset visual completo da caixa */
+ border: none;
+ border: 0 !important; /* Força a remoção de qualquer borda */
+ padding: 0;
+ margin: 0;
+ background: transparent;
+ box-shadow: none;
+ box-shadow: 0 0 0 0 !important; /* Força a remoção de qualquer sombra (padrão do navegador) */
+ outline: none; /* Remove o contorno de foco (laranja/azul) */
+ 
+ /* 2. Estilos do texto */
+ text-align: center;
+ font-weight: bold;
+ font-size: 1.1em;
+ /* Aumenta a largura para 50px para acomodar números maiores e evitar quebra */
+ width: 50px;
+ /* 3. Reset de setas (spinners) */
+ -moz-appearance: textfield; 
+ 
 }
 
 /* --- CORREÇÃO DE ESPECIFICIDADE PARA REMOVER BORDA/FUNDO DO INPUT NUMBER --- */
@@ -677,12 +707,12 @@ grid-template-columns: 1fr;
 
 #pv-input, #pvMax-input, 
 #pm-input, #pmMax-input {
-  /* Força a remoção de qualquer borda vinda de regras genéricas (ex: input[type="number"]) */
-  border: none !important;
-  border-width: 0 !important;
-  /* Força a remoção de qualquer fundo */
-  background: transparent !important;
-  box-shadow: none !important;
+ /* Força a remoção de qualquer borda vinda de regras genéricas (ex: input[type="number"]) */
+ border: none !important;
+ border-width: 0 !important;
+ /* Força a remoção de qualquer fundo */
+ background: transparent !important;
+ box-shadow: none !important;
 }
 /* -------------------------------------------------------------------------- */
 
@@ -691,54 +721,54 @@ grid-template-columns: 1fr;
 .status-input-current::-webkit-outer-spin-button,
 .status-input-max::-webkit-inner-spin-button,
 .status-input-max::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+ -webkit-appearance: none;
+ margin: 0;
 }
 
 /* Separador */
 .status-bar-inner .status-separator {
- font-weight: bold;
- color: #fff;
+font-weight: bold;
+color: #fff;
 }
 
 /* Cor Padrão dos Inputs e Separador (Quando a barra está vazia ou Max) */
 .status-input-max,
 .status-separator {
-  color: #5a0000; 
-  text-shadow: none;
+ color: #5a0000; 
+ text-shadow: none;
 }
 
 /* Cor do Input ATUAL (Current) por padrão. O JS ajustará isso. */
 .status-input-current {
-  color: #5a0000; 
-  text-shadow: none;
+ color: #5a0000; 
+ text-shadow: none;
 }
 
 /* Garante que o input, ao ser focado, não mostre a caixa padrão do navegador */
 .status-input-current:focus,
 .status-input-max:focus {
-  background: transparent !important;
-  border: 0 !important; 
-  box-shadow: none !important;
-  outline: none !important;
+ background: transparent !important;
+ border: 0 !important; 
+ box-shadow: none !important;
+ outline: none !important;
 }
 
 #armadura {
-  width: 157px; /* ou outro valor que achar visualmente melhor */
+ width: 157px; /* ou outro valor que achar visualmente melhor */
 }
 
 #defTotal {
-  font-weight: bold;
-  color: #2c1b10; /* pode trocar a cor */
-  font-size: 1.2em; /* aumenta um pouco o tamanho */
+ font-weight: bold;
+ color: #2c1b10; /* pode trocar a cor */
+ font-size: 1.2em; /* aumenta um pouco o tamanho */
 }
 
 .total-defesa-container {
-  text-align: center;    /* centraliza todo o conteúdo */
-  font-weight: bold;
-  font-size: 1.2em;
-  color: #2c1b10;
-  margin-top: 10px;
+ text-align: center;  /* centraliza todo o conteúdo */
+ font-weight: bold;
+ font-size: 1.2em;
+ color: #2c1b10;
+ margin-top: 10px;
 }
 
 /* style.css (Adicionado ao final) */
@@ -797,19 +827,19 @@ width: 100%; /* Garante que o contêiner interno ocupe o máximo */
 
 /* ** MODIFICADO: Estilo para o campo de RD como um input de texto padrão ** */
 .rd-input-container input {
-  /* Herda estilos globais de input (borda, padding, etc.) */
-  /* Sobrescreve estilos de número */
-  text-align: left; /* Texto alinhado à esquerda como nos outros campos */
-  font-size: 0.9em; /* Volta ao tamanho padrão para inputs de texto */
-  
-  /* Permite que o input ocupe o espaço restante */
-  flex-grow: 1; 
-  
-  /* Remove estilos específicos de inputs numéricos que causavam problemas */
-  padding: 6px 8px; /* Padding padrão de inputs */
-  margin: 0; 
-  width: auto; /* Deixa o flex-grow definir a largura */
-  -moz-appearance: initial; /* Reseta a aparência de número */
+ /* Herda estilos globais de input (borda, padding, etc.) */
+ /* Sobrescreve estilos de número */
+ text-align: left; /* Texto alinhado à esquerda como nos outros campos */
+ font-size: 0.9em; /* Volta ao tamanho padrão para inputs de texto */
+ 
+ /* Permite que o input ocupe o espaço restante */
+ flex-grow: 1; 
+ 
+ /* Remove estilos específicos de inputs numéricos que causavam problemas */
+ padding: 6px 8px; /* Padding padrão de inputs */
+ margin: 0; 
+ width: auto; /* Deixa o flex-grow definir a largura */
+ -moz-appearance: initial; /* Reseta a aparência de número */
 }
 .rd-input-container input::-webkit-inner-spin-button,
 .rd-input-container input::-webkit-outer-spin-button {
@@ -833,117 +863,141 @@ font-weight: bold;
 /* --- ESTILOS DE MAGIAS (ADICIONADOS/MODIFICADOS) --- */
 
 .magias-header {
-    /* Usa Flexbox para alinhar os 3 componentes (Botão, Título e CD) */
-    display: flex;
-    justify-content: space-between; /* Espalha os itens */
-    align-items: center;
-    /* Herda o estilo do h2 antigo para a linha inferior e fundo */
-    background: linear-gradient(#8b0000, #5a0000);
-    margin: -12px -12px 12px -12px; /* Espaça corretamente dentro da .caixa */
-    padding: 8px 12px;
-    border-bottom: 3px solid #b22222;
+  /* Usa Flexbox para alinhar os 3 componentes (Botão, Título e CD) */
+  display: flex;
+  justify-content: space-between; /* Espalha os itens */
+  align-items: center;
+  /* Herda o estilo do h2 antigo para a linha inferior e fundo */
+  background: linear-gradient(#8b0000, #5a0000);
+  margin: -12px -12px 12px -12px; /* Espaça corretamente dentro da .caixa */
+  padding: 8px 12px;
+  border-bottom: 3px solid #b22222;
 }
 
 .magias-header h2 {
-    /* Volta o h2 ao estilo de um título centralizado, mas sem fundo */
-    margin: 0;
-    padding: 0;
-    background: none;
-    color: #f8f3e7;
-    text-align: center;
-    font-size: 1.1em;
-    flex-grow: 1; /* Permite que o título ocupe o espaço central */
-    white-space: nowrap; /* Evita quebra de linha no título */
-    border-bottom: none !important;
+  /* Volta o h2 ao estilo de um título centralizado, mas sem fundo */
+  margin: 0;
+  padding: 0;
+  background: none;
+  color: #f8f3e7;
+  text-align: center;
+  font-size: 1.1em;
+  flex-grow: 1; /* Permite que o título ocupe o espaço central */
+  white-space: nowrap; /* Evita quebra de linha no título */
+  border-bottom: none !important;
 }
 
 /* Esconde o botão de adicionar magia dentro do novo header no mobile */
 .magias-header button {
-    order: -1; /* Força o botão para a esquerda (primeiro item) */
-    background: #5a0000;
-    color: #f8f3e7;
-    border: 2px solid #3a0000;
-    font-size: 0.8em;
-    padding: 4px 8px;
+  order: -1; /* Força o botão para a esquerda (primeiro item) */
+  background: #5a0000;
+  color: #f8f3e7;
+  border: 2px solid #3a0000;
+  font-size: 0.8em;
+  padding: 4px 8px;
+}
+
+/* style.css (Adicione ao final ou perto de .magia) */
+
+/* Remove qualquer borda inferior dos inputs de Magia, se existir */
+.magia-linha input[type="text"],
+.magia-linha input[type="number"] {
+    border-bottom: 1px solid #000000; /* Mantenha a borda do input */
+}
+
+/* Regra para a linha entre as magias - se for um elemento interno */
+.magia-linha:last-of-type {
+    border-bottom: none;
+}
+
+/* Remove a borda inferior do container de magias para que o background não vaze */
+.magia:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
 }
 
 /* Estilo do container da CD da Magia (canto direito) */
 .cd-container {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    /* Cor de fundo para dar destaque ao bloco de CD */
-    background: rgba(0, 0, 0, 0.1); 
-    padding: 2px 6px;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
-    color: #f8f3e7; /* Cor do texto (rótulo) */
-    font-weight: normal; /* Texto mais leve */
-    font-size: 0.9em;
-    min-width: 150px; 
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  /* Cor de fundo para dar destaque ao bloco de CD */
+  background: rgba(0, 0, 0, 0.1); 
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+  color: #f8f3e7; /* Cor do texto (rótulo) */
+  font-weight: normal; /* Texto mais leve */
+  font-size: 0.9em;
+  min-width: 150px; 
 }
 
 .cd-container label {
-    color: #f8f3e7;
-    font-size: 1em; /* Tamanho maior para o rótulo */
-    margin: 0;
-    font-weight: bold;
+  color: #f8f3e7;
+  font-size: 1em; /* Tamanho maior para o rótulo */
+  margin: 0;
+  font-weight: bold;
 }
 
 /* Inputs e Selects dentro do container da CD */
 .cd-container select {
-    border: 1px solid #700000; /* Borda mais definida */
-    background: #fffdf8; /* Fundo mais claro */
-    color: #2c1b10;
-    padding: 3px; /* Padding maior */
-    border-radius: 4px;
-    font-size: 0.85em;
-    text-align: center;
-    width: 50px; /* Levemente mais largo */
+  border: 1px solid #700000; /* Borda mais definida */
+  background: #fffdf8; /* Fundo mais claro */
+  color: #2c1b10;
+  padding: 3px; /* Padding maior */
+  border-radius: 4px;
+  font-size: 0.85em;
+  text-align: center;
+  width: 50px; /* Levemente mais largo */
 }
 
 .cd-container input {
-    border: 1px solid #700000;
-    background: #fffdf8;
-    color: #2c1b10;
-    padding: 3px;
-    border-radius: 4px;
-    font-size: 0.85em;
-    text-align: center;
-    width: 40px;
+  border: 1px solid #700000;
+  background: #fffdf8;
+  color: #2c1b10;
+  padding: 3px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  text-align: center;
+  width: 40px;
 }
 
 .cd-container .cd-valor {
-    /* Efeito de destaque no pergaminho */
-    background: #5a0000; 
-    color: #f8f3e7;
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-size: 1.1em; /* Aumenta o tamanho para destaque */
-    font-weight: bold;
-    border: 1px solid #b22222;
+  /* Efeito de destaque no pergaminho */
+  background: #5a0000; 
+  color: #f8f3e7;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 1.1em; /* Aumenta o tamanho para destaque */
+  font-weight: bold;
+  border: 1px solid #b22222;
 }
 
 .cd-container span {
-    font-size: 1em;
-    font-weight: bold;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.magia hr {
+    display: none;
 }
 
 /* Ajuste de responsividade para o cabeçalho da Magia (opcional) */
 @media (max-width: 768px) {
-    .magias-header {
-        flex-wrap: wrap;
-    }
-    .magias-header button {
-        /* Ocupa a largura total para quebrar a linha */
-        flex-basis: 100%; 
-        margin-bottom: 8px;
-    }
-    .cd-container {
-        /* Ocupa a largura total para quebrar a linha */
-        flex-basis: 100%;
-        justify-content: center;
-        padding-top: 4px;
-    }
+  .magias-header {
+    flex-wrap: wrap;
+  }
+  .magias-header button {
+    /* Ocupa a largura total para quebrar a linha */
+    flex-basis: 100%; 
+    margin-bottom: 8px;
+  }
+  .cd-container {
+    /* Ocupa a largura total para quebrar a linha */
+    flex-basis: 100%;
+    justify-content: center;
+    padding-top: 4px;
+  }
 }
+
