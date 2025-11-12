@@ -55,7 +55,6 @@ transform: scale(1.05);
 display: grid;
 max-width: 900px; 
 width: 100%;
-/* auto-fit: cria de 1 a 3 colunas, mínimo de 280px por coluna */
 grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
 gap: 14px; /* O espaçamento entre as caixas */
 margin: 14px 0;
@@ -76,13 +75,13 @@ grid-column: span 3;
 
 /* Caixas de Perícias (Ocupa 2 Colunas e Centraliza - CORREÇÃO APLICADA) */
 .pericias-caixa {
- /* Ocupa duas colunas (span 2) */
- grid-column: span 2;
- /* Centraliza a caixa dentro do espaço disponível no grid */
- margin-left: auto;
- margin-right: auto;
- width: 100%; 
- max-width: 600px; /* Adiciona um limite de largura para melhor centralização */
+/* No layout de 3 colunas (desktop), ela ocupa o espaço de 2 colunas para ficar centralizada e larga */
+grid-column: span 2;
+/* Centraliza a caixa no espaço disponível */
+margin-left: auto;
+margin-right: auto;
+width: 100%; 
+max-width: 620px; /* Limite de largura para centralização visual */
 }
 
 /* Caixas Pequenas (Ocupam 1 Coluna) */
@@ -431,16 +430,16 @@ min-height: 60px;
 /* RESPONSIVIDADE */
 
 @media (min-width: 900px) {
+/* Esta regra garante 3 colunas fixas e centralização perfeita no Desktop */
 .ficha-container {
- grid-template-columns: repeat(3, 1fr); /* garante 3 colunas em desktop */
- justify-items: center;
+grid-template-columns: repeat(3, 1fr); 
+justify-items: center;
 }
 
 .pericias-caixa {
- grid-column: 1 / -1; /* ocupa as 2 colunas do meio */
- justify-self: center;
- width: 100%;
- max-width: 620px;
+/* No layout de 3 colunas (desktop), forçamos ela a ocupar as 3 colunas e limitamos o conteúdo interno */
+grid-column: span 3;
+max-width: 800px; /* Aumenta a largura máxima para se adequar ao span 3 */
 }
 }
 
@@ -461,14 +460,14 @@ gap: 14px;
 .habilidades-caixa, 
 .magias-caixa,
 .inventario-quadro,
-.pericias-caixa, /* Forçado a span 1 aqui para mobile */
+.pericias-caixa, 
 .ataques-caixa,
 .atributos-caixa,
 .status-caixa,
 .defesa-caixa {
-grid-column: span  !important; /* !important garante que sobrescreve o grid-column: 2 / 4 */
-justify-self: stretch; /* Garante que volta a ocupar a largura total do container pai */
-margin-left: 0; /* Remove margens de centralização */
+grid-column: span 1; /* Remove o !important e garante o span 1 */
+justify-self: stretch; 
+margin-left: 0; 
 margin-right: 0;
 }
 
@@ -479,21 +478,21 @@ grid-template-columns: repeat(2, 1fr);
 }
 
 .pericias {
- /* No mobile, voltamos a uma coluna de lista para melhor leitura */
+/* No mobile, voltamos a uma coluna de lista para melhor leitura */
 grid-template-columns: 1fr;
- max-width: none; /* Usa 100% da largura da tela */
- margin: 0;
+max-width: none; /* Usa 100% da largura da tela */
+margin: 0;
 }
 
 /* *** CORREÇÃO APLICADA AQUI *** */
 /* Garante que o nome da perícia apareça e use o espaço no mobile */
 .pericias div span:first-child {
-    flex-grow: 1; /* Permite que o nome da perícia ocupe o espaço restante */
-    text-align: left; 
-    white-space: normal !important; /* Permite a quebra de linha para nomes longos */
-    overflow: visible !important; /* Garante que o texto não seja cortado */
-    text-overflow: clip !important; /* Garante que o texto não seja cortado */
-    min-width: 70px; /* Garante um tamanho mínimo para visualização */
+  flex-grow: 1; 
+  text-align: left; 
+  white-space: normal; /* Permite a quebra de linha para nomes longos */
+  overflow: visible; 
+  text-overflow: clip; 
+  min-width: 70px; 
 }
 /* ***************************** */
 
