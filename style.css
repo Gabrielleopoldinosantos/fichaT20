@@ -11,8 +11,6 @@ margin: 0;
 }
 
 /* Cabeçalho */
-/* style.css (MODIFICAR) */
-
 h1 {
   font-family: "Trajan Pro", serif;
   color: #8b0000;
@@ -26,6 +24,10 @@ h1 {
   font-size: 1.8em;
   border-bottom: 3px solid #b22222;
   padding-bottom: 6px;
+}
+
+h2 {
+  border-radius: 8px  ;
 }
 
 /* Botões */
@@ -980,6 +982,54 @@ font-weight: bold;
 
 .magia hr {
     display: none;
+}
+
+.imagem-personagem-container {
+    display: flex;
+    flex-direction: column; 
+    
+    align-items: center; 
+    
+    margin-bottom: 20px; 
+}
+
+.imagem-personagem-container label {
+    display: flex;
+    flex-direction: column; /* Organiza o texto e os inputs um abaixo do outro */
+    align-items: center; /* Centraliza o conteúdo do label */
+    background-color: transparent; /* Garante que o fundo do label seja transparente */
+    padding: 0;
+    margin-top: 10px;
+}
+
+.imagem-personagem-container input[type="file"] {
+    background-color: transparent; 
+    border: none; 
+    color: inherit; 
+    max-width: 250px; 
+    margin: 5px auto 0 auto; 
+    padding: 0;
+}
+
+#imgPersonagemDisplay {
+    transition: all 0.3s ease-in-out; /* Adiciona transição para a troca de imagem ser suave */
+}
+
+.caixa.detalhes {
+    padding: 15px 10px; /* 15px em cima/embaixo, 10px nas laterais */
+}
+
+input[type="file"]::file-selector-button {
+    background-color: transparent;
+    border: none;
+    color: #4CAF50;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: rgba(76, 175, 80, 0.1); /* Fundo sutil ao passar o mouse */
 }
 
 /* Ajuste de responsividade para o cabeçalho da Magia (opcional) */

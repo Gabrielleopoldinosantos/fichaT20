@@ -147,7 +147,7 @@ function calcularDeslocamento() {
 window.salvarFicha = salvarFicha;
 window.carregarFichaSelecionada = carregarFichaSelecionada;
 
-// Listeners de PV/PM (Realtime) - Adaptado para os novos IDs de INPUT
+// Listeners de PV/PM (Realtime) - ADICIONAR checarPVsEAtualizarImagem
 ["pv-input", "pvMax-input", "pm-input", "pmMax-input"].forEach(id => {
     const inputElement = document.getElementById(id);
     if (inputElement) {
@@ -208,7 +208,6 @@ document.querySelectorAll(".pericias input[type=checkbox]").forEach(cb => {
 // Listeners de Inventário
 document.getElementById("addItemBtn")?.addEventListener("click", () => criarItemInventario());
 document.getElementById("for")?.addEventListener("input", atualizarInventario);
-
 
 // Listener de Magias
 document.getElementById("addMagiaBtn")?.addEventListener("click", () => criarMagia());
