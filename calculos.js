@@ -1,10 +1,9 @@
 import { gvn } from "./formulario.js";
 
 // ========================================================
-// DEFESA & CD MAGIA (Sem Alterações)
+// DEFESA (COM PENALIDADE DE CARGA PESADA)
 // ========================================================
 
-// Defesa (Mantido com regra simplificada: Atributo = Bônus)
 export function calcularDefesa() {
     const atributo = document.getElementById("defAtributo")?.value;
     const valorAtributo = gvn(atributo);
@@ -13,9 +12,9 @@ export function calcularDefesa() {
     const armadura = parseInt(gvn("armadura") || 0);
     const escudo = parseInt(gvn("escudo") || 0);
     const outros = parseInt(gvn("defOutros") || 0);
-    const penalidadeSobrecarga = parseInt(gvn("penalidadeSobrecarga") || 0); // NOVO: Captura penalidade
+    const penalidadeSobrecarga = parseInt(gvn("penalidadeSobrecarga") || 0);
 
-    // Total Defesa: 10 + Bônus de Atributo + Armadura + Escudo + Outros + Penalidade Sobrecarga (negativa)
+    // Total Defesa: 10 + Bônus de Atributo + Armadura + Escudo + Outros + Penalidade Sobrecarga
     const total = 10 + bonusAtributo + armadura + escudo + outros + penalidadeSobrecarga;
     if (document.getElementById("defTotal")) {
         document.getElementById("defTotal").innerText = total;
@@ -39,7 +38,7 @@ export function calcularCDMagia() {
 }
 
 // ========================================================
-// PERÍCIAS (Sem Alterações)
+// PERÍCIAS (COM PENALIDADE DE CARGA PESADA E OFÍCIOS)
 // ========================================================
 
 const bonusTreinamento = {
@@ -66,9 +65,9 @@ const listaPericias = [
 export function calcularPericias() {
     const nivel = parseInt(gvn("nivel") || 1);
     const penalidadeArmadura = parseInt(gvn("armaduraPenalidade") || 0);
-    // Note: penalidadeSobrecarga é um número negativo ou zero (-5, -10, ou 0)
     const penalidadeSobrecarga = parseInt(gvn("penalidadeSobrecarga") || 0); 
 
+    // Calcula perícias normais
     listaPericias.forEach(nome => {
         const selectElement = document.getElementById("attr" + nome);
         if (!selectElement) return; 
@@ -84,140 +83,204 @@ export function calcularPericias() {
         let penalidadeTotal = 0;
 
         if (periciasComPenalidade.includes(nome)) {
-            // Penalidade de Armadura é positiva no input HTML, mas negativa na regra.
             penalidadeTotal -= penalidadeArmadura;
-            
-            // Penalidade de Sobrecarga é capturada como negativa (-5 ou -10)
             penalidadeTotal += penalidadeSobrecarga; 
         }
 
         let total = 0;
 
-        // Se a perícia exige treino e não está treinada, o total é 0.
         if (periciasComExigenciaDeTreino.includes(nome) && !treinado) {
             total = 0;
         } else {
-            // CÁLCULO PADRÃO (para perícias treinadas ou que não exigem treino)
             total = valorAtributo + bonusTreino + bonusOutros + penalidadeTotal;
         }
 
         const campo = document.getElementById("pericia" + nome);
         if (campo) campo.value = total;
     });
+
+    // Calcula Ofícios (mesma lógica das outras perícias)
+    document.querySelectorAll(".oficio-item").forEach(oficioDiv => {
+        const oficioId = oficioDiv.dataset.oficioId;
+        const selectElement = oficioDiv.querySelector(".oficioAttr");
+        
+        if (!selectElement) return;
+
+        const attr = selectElement.value;
+        const valorAtributo = parseInt(gvn(attr) || 0);
+
+        const treinado = oficioDiv.querySelector(".oficioTreino")?.checked;
+        const bonusTreino = treinado ? (bonusTreinamento[nivel] || 0) : Math.floor(nivel / 2);
+
+        const bonusInput = oficioDiv.querySelector(".oficioBonus");
+        const bonusOutros = parseInt(bonusInput?.value || 0);
+
+        let penalidadeTotal = 0;
+
+        // Ofício não sofre penalidade de armadura, mas pode sofrer de sobrecarga se necessário
+        // (Comentado por padrão, mas pode ser ativado se necessário)
+        // penalidadeTotal += penalidadeSobrecarga;
+
+        let total = 0;
+
+        // Ofício exige treinamento (assim como as outras perícias que exigem treino)
+        if (!treinado) {
+            total = 0;
+        } else {
+            total = valorAtributo + bonusTreino + bonusOutros + penalidadeTotal;
+        }
+
+        const campoValor = oficioDiv.querySelector(".oficioValor");
+        if (campoValor) campoValor.value = total;
+    });
 }
 
-
 // ========================================================
-// INVENTÁRIO / CARGA (MODIFICADO para customização)
+// INVENTÁRIO COM SISTEMA DE PENALIDADES
 // ========================================================
 
 /**
- * Calcula a capacidade de carga (Espaços) de um personagem.
- * Inclui o valor customizável da Carga Máxima.
+ * Atualiza o inventário e aplica penalidades de carga pesada/sobrecarga
+ * - Carga Pesada (laranja): -5 Defesa, -3m deslocamento
+ * - Sobrecarga (vermelho): -10 Defesa, -6m deslocamento
  */
+export function atualizarInventario() {
+    const forcaBase = parseInt(document.getElementById("for")?.value || 10);
+    const cargaAdicional = parseInt(document.getElementById("cargaMaxima")?.value || 0);
+    
+    const cargaNormal = 10 + (2 * forcaBase) + cargaAdicional;
+    const cargaMaxima = cargaNormal * 2;
+    
+    let espacoOcupado = 0;
+    
+    // Atualiza o total de cada item
+    document.querySelectorAll(".itemInventario").forEach(item => {
+        const qtdInput = item.querySelector(".itemQtd");
+        const pesoInput = item.querySelector(".itemPeso");
+        const totalSpan = item.querySelector(".itemTotal");
+        
+        const qtd = parseFloat(qtdInput?.value || 0);
+        const peso = parseFloat(pesoInput?.value || 0);
+        const total = qtd * peso;
+        
+        if (totalSpan) {
+            totalSpan.textContent = total.toFixed(1);
+        }
+        
+        espacoOcupado += total;
+    });
+    
+    // Determina o nível de carga e aplica penalidades
+    let penalidadeDefesa = 0;
+    let penalidadeDeslocamento = 0;
+    let statusCarga = "normal";
+    
+    if (espacoOcupado > cargaMaxima) {
+        // SOBRECARGA (vermelho)
+        statusCarga = "sobrecarga";
+        penalidadeDefesa = -10;
+        penalidadeDeslocamento = -6;
+    } else if (espacoOcupado > cargaNormal) {
+        // CARGA PESADA (laranja)
+        statusCarga = "pesada";
+        penalidadeDefesa = -5;
+        penalidadeDeslocamento = -3;
+    }
+    
+    // Atualiza o campo hidden com a penalidade de defesa
+    const campoPenalidadeSobrecarga = document.getElementById("penalidadeSobrecarga");
+    if (campoPenalidadeSobrecarga) {
+        campoPenalidadeSobrecarga.value = penalidadeDefesa;
+    }
+    
+    // Aplica penalidade ao deslocamento
+    aplicarPenalidadeDeslocamento(penalidadeDeslocamento);
+    
+    // Atualiza o status no rodapé
+    const statusElement = document.getElementById("statusInventario");
+    if (statusElement) {
+        const valorSpan = statusElement.querySelector(".status-valor");
+        const maxSpan = statusElement.querySelector(".status-max");
+        const avisoSpan = statusElement.querySelector(".status-aviso");
+        
+        if (valorSpan) valorSpan.textContent = espacoOcupado.toFixed(1);
+        if (maxSpan) maxSpan.textContent = cargaNormal.toFixed(1);
+        
+        if (avisoSpan) {
+            if (statusCarga === "sobrecarga") {
+                valorSpan.style.color = "#d32f2f";
+                avisoSpan.textContent = `(${cargaMaxima.toFixed(1)} máx. - SOBRECARGA! -10 Def, -6m)`;
+                avisoSpan.style.color = "#d32f2f";
+            } else if (statusCarga === "pesada") {
+                valorSpan.style.color = "#ff9800";
+                avisoSpan.textContent = `(${cargaMaxima.toFixed(1)} máx. - sobrecarga: -5 Def, -3m)`;
+                avisoSpan.style.color = "#ff9800";
+            } else {
+                valorSpan.style.color = "#2d8c2d";
+                avisoSpan.textContent = "";
+            }
+        }
+    }
+    
+    // Recalcula defesa e perícias após aplicar penalidades
+    calcularDefesa();
+    calcularPericias();
+}
+
+/**
+ * Aplica a penalidade de deslocamento ao valor base armazenado
+ */
+function aplicarPenalidadeDeslocamento(penalidade) {
+    const deslocamentoMInput = document.getElementById("deslocamento-m");
+    const deslocamentoQInput = document.getElementById("deslocamento-q");
+    
+    if (!deslocamentoMInput || !deslocamentoQInput) return;
+    
+    // Pega o valor base armazenado (sem penalidades)
+    let deslocamentoBase = parseFloat(deslocamentoMInput.dataset.valorBase);
+    
+    // Se não existe valor base armazenado, usa o valor atual como base
+    if (!deslocamentoBase) {
+        deslocamentoBase = parseFloat(deslocamentoMInput.value) || 9;
+        deslocamentoMInput.dataset.valorBase = deslocamentoBase;
+    }
+    
+    // Aplica a penalidade ao valor base
+    const novoDeslocamentoM = Math.max(0, deslocamentoBase + penalidade);
+    const novoDeslocamentoQ = Math.round(novoDeslocamentoM / 1.5);
+    
+    // Atualiza os campos
+    deslocamentoMInput.value = novoDeslocamentoM.toFixed(1);
+    deslocamentoQInput.value = novoDeslocamentoQ;
+}
+
+/**
+ * Função auxiliar para resetar o valor base do deslocamento
+ * Deve ser chamada quando o usuário manualmente edita o deslocamento
+ */
+export function resetarDeslocamentoBase() {
+    const deslocamentoMInput = document.getElementById("deslocamento-m");
+    if (deslocamentoMInput) {
+        deslocamentoMInput.dataset.valorBase = deslocamentoMInput.value;
+    }
+}
+
+// ========================================================
+// CAPACIDADE DE CARGA (Função auxiliar mantida)
+// ========================================================
+
 export function capacidadeCarga() {
     const forca = parseInt(gvn("for") || 0);
-    // NOVO: Valor customizado do input "Carga Máxima" (bônus manual)
     const bonusCarga = parseInt(gvn("cargaMaxima") || 0); 
     
-    // Capacidade padrão T20 (Espaços): 10 + (2 * Força) + Bônus Manual (cargaMaxima)
     const capacidadeLivre = 10 + (2 * forca) + bonusCarga; 
-    
-    // Carga Máxima (Carga Pesada): O dobro da capacidade livre.
     const capacidadePesada = capacidadeLivre * 2; 
 
-    // Correção de bug de valor negativo
     const capacidadeLivreCorrigida = Math.max(0, capacidadeLivre);
-    // A capacidade pesada também é ajustada se a livre for 0
     const capacidadePesadaCorrigida = Math.max(0, capacidadePesada);
-
 
     return {
         capacidadeLivre: capacidadeLivreCorrigida, 
         capacidadePesada: capacidadePesadaCorrigida
     };
-}
-
-
-export function atualizarInventario() {
-    const inventarioContainer = document.getElementById("inventarioContainer");
-    const statusInventario = document.getElementById("statusInventario");
-    const penalidadeSobrecargaInput = document.getElementById("penalidadeSobrecarga");
-    const deslocamentoM = document.getElementById("deslocamento-m");
-    const deslocamentoQ = document.getElementById("deslocamento-q");
-    let pesoAtual = 0;
-    let itensContagem = 0; // NOVO: Contador de itens
-
-    // Captura o limite de itens customizado
-    const limiteItens = parseInt(gvn("limiteItens") || 0);
-
-    // 1. Recálculo do Peso Total (O Peso é o "Espaço" ocupado)
-    inventarioContainer.querySelectorAll(".itemInventario").forEach(div => {
-        const qtd = parseInt(div.querySelector(".itemQtd")?.value) || 0;
-        const peso = parseFloat(div.querySelector(".itemPeso")?.value) || 0;
-        const totalItem = (qtd * peso).toFixed(2);
-        
-        // Atualiza o total visual de cada item
-        const totalElement = div.querySelector(".itemTotal");
-        if(totalElement) totalElement.textContent = totalItem;
-        
-        pesoAtual += parseFloat(totalItem);
-        itensContagem += 1; // Incrementa a contagem de itens
-    });
-
-    // 2. Determinação da Categoria de Carga e Aplicação de Penalidades
-    const { 
-        capacidadeLivre, 
-        capacidadePesada 
-    } = capacidadeCarga();
-
-    let corCarga = "#00b300"; // Verde: Carga Leve
-    let penalidadeAtiva = 0; 
-    let reducaoDeslocamento = 0; 
-    let statusTitle = `Carga Leve. Você não sofre penalidades.`;
-    let avisoItens = "";
-
-    if (pesoAtual > capacidadePesada) {
-        corCarga = "#ff4d4d"; // Vermelho: Carga Pesada (Acima do máximo)
-        penalidadeAtiva = 10; 
-        reducaoDeslocamento = 6; 
-        statusTitle = `Carga Pesada! Acima do limite máximo, penalidade de -10 em Acrobacia, Furtividade e Ladinagem e -6m no deslocamento.`;
-
-    } else if (pesoAtual > capacidadeLivre) {
-        corCarga = "#ffaa00"; // Amarelo: Carga Média/Sobrepeso
-        penalidadeAtiva = 5; 
-        reducaoDeslocamento = 3; 
-        statusTitle = `Sobrecarga! Penalidade de -5 em Acrobacia, Furtividade e Ladinagem e -3m no deslocamento.`;
-    }
-    
-    // NOVO: Checagem do limite de itens
-    if (limiteItens > 0 && itensContagem > limiteItens) {
-        // Alerta visual de limite de itens excedido
-        avisoItens = ` (LIMITE DE ITENS EXCEDIDO: ${itensContagem}/${limiteItens})`;
-        statusTitle += `\n*Atenção: Limite de itens excedido!*`;
-        // Você pode optar por dar uma penalidade aqui se quiser
-    }
-
-    // 3. Atualização dos campos afetados
-
-    // a) Penalidade de Sobrecarga (NEGATIVA para subtrair)
-    penalidadeSobrecargaInput.value = penalidadeAtiva * -1;
-
-    // b) Redução do Deslocamento Base
-    const deslocamentoBaseMetros = 9; // Valor padrão de T20 (assumido)
-    const novoDeslocamentoMetros = Math.max(0, deslocamentoBaseMetros - reducaoDeslocamento).toFixed(1);
-    const novoDeslocamentoQuadrados = Math.round(parseFloat(novoDeslocamentoMetros) / 1.5);
-
-    // Atualiza os inputs de deslocamento
-    deslocamentoM.value = novoDeslocamentoMetros;
-    deslocamentoQ.value = novoDeslocamentoQuadrados;
-
-
-    // 4. Atualização Visual do Status (CORRIGIDA A ORDEM)
-    // Formato: Peso Atual / Capacidade Livre (Capacidade Máxima) | Itens: Contagem / Limite
-    statusInventario.innerHTML = `Espaço ocupado: <span style="color:${corCarga};">${pesoAtual.toFixed(2)}</span> / ${capacidadeLivre.toFixed(2)} (${capacidadePesada.toFixed(2)} máx.)${avisoItens}`;
-    statusInventario.title = statusTitle;
-
-    // 5. Recalcula as perícias (para aplicar a penalidade de sobrecarga)
-    calcularPericias();
 }

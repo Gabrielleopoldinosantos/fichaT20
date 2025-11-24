@@ -1,5 +1,5 @@
 // util.js
-import { atualizarInventario } from "./calculos.js"; // Para recalcular ao adicionar/remover item
+import { atualizarInventario, calcularPericias } from "./calculos.js";
 
 // Funções de Ataques, Inventário e Magias
 
@@ -21,45 +21,101 @@ document.getElementById("addAtaqueBtn")?.addEventListener("click", () => {
     container.appendChild(div);
 });
 
+// ========================================
+// NOVA FUNÇÃO: Criar Ofício
+// ========================================
+let contadorOficios = 0;
 
-export function criarItemInventario(nome = "", qtd = null, peso = null, desc = "") {
+export function criarOficio(nome = "", atributo = "int", treinado = false, bonus = 0, valor = 0) {
+    const container = document.getElementById("oficiosContainer");
+    const id = `oficio_${contadorOficios++}`;
+    
+    const div = document.createElement("div");
+    div.className = "oficio-item";
+    div.dataset.oficioId = id;
+    
+    div.innerHTML = `
+      <div style="display: flex; gap: 6px; align-items: center; padding: 3px; border-bottom: 1px dashed #8b0000;">
+        <input type="text" class="oficioNome" placeholder="Nome do Ofício" value="${nome}" style="flex: 1; min-width: 120px;">
+        <select class="oficioAttr" id="attrOficio_${id}">
+          <option value="for" ${atributo === 'for' ? 'selected' : ''}>For</option>
+          <option value="des" ${atributo === 'des' ? 'selected' : ''}>Des</option>
+          <option value="con" ${atributo === 'con' ? 'selected' : ''}>Con</option>
+          <option value="int" ${atributo === 'int' ? 'selected' : ''}>Int</option>
+          <option value="sab" ${atributo === 'sab' ? 'selected' : ''}>Sab</option>
+          <option value="car" ${atributo === 'car' ? 'selected' : ''}>Car</option>
+        </select>
+        <input type="checkbox" class="oficioTreino" id="treinoOficio_${id}" ${treinado ? 'checked' : ''}>
+        <input type="number" class="oficioBonus" id="bonusOficio_${id}" placeholder="Bônus" value="${bonus}" style="width: 60px;">
+        <input type="number" class="oficioValor" id="periciaOficio_${id}" readonly value="${valor}" style="width: 60px;">
+        <button type="button" class="removeOficioBtn" style="background: #b22222; color: #fff; border: 2px solid #700000; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8em;">Excluir</button>
+      </div>
+    `;
+    
+    // Adiciona listeners
+    div.querySelector(".oficioAttr")?.addEventListener("change", calcularPericias);
+    div.querySelector(".oficioTreino")?.addEventListener("change", calcularPericias);
+    div.querySelector(".oficioBonus")?.addEventListener("input", calcularPericias);
+    
+    div.querySelector(".removeOficioBtn")?.addEventListener("click", () => {
+        div.remove();
+        calcularPericias();
+    });
+    
+    container.appendChild(div);
+    calcularPericias();
+}
+
+// Listener para o botão de adicionar ofício
+document.getElementById("addOficioBtn")?.addEventListener("click", () => {
+    criarOficio();
+});
+
+// ========================================
+// FUNÇÃO ATUALIZADA: Criar Item de Inventário
+// ========================================
+export function criarItemInventario(nome = "", qtd = 1, peso = 1, desc = "") {
   const div = document.createElement("div");
   div.className = "itemInventario";
 
+  // Novo layout: Nome | Qtd | Espaços | Total | Ações (grid de 5 colunas)
   div.innerHTML = `
-    <input type="text" class="itemNome" placeholder="Nome do item" value="${nome}">
-    
-    <div class="item-dados-secundarios">
-        <input type="number" class="itemQtd" placeholder="Qtd" value="${qtd !== null ? qtd : ''}" min="1">
-        <input type="number" class="itemPeso" placeholder="Peso" value="${peso !== null ? peso : ''}" min="0">
-        <span class="itemTotal">0</span>
-    </div>
+    <input type="text" class="itemNome" placeholder="Nome do Item" value="${nome}">
+    <input type="number" class="itemQtd" placeholder="1" value="${qtd}" min="1">
+    <input type="number" class="itemPeso" placeholder="1" value="${peso}" min="0" step="0.1">
+    <span class="itemTotal">0</span>
     
     <div class="item-acoes">
         <button type="button" class="toggleDesc">Descrição</button>
-        <button type="button" class="removeItem">Remover</button>
+        <button type="button" class="removeItem">Excluir</button>
     </div>
 
     <div class="itemDesc" style="display:none;">
-      <textarea placeholder="Descrição do item">${desc}</textarea>
+      <textarea placeholder="Descrição (Efeitos, propriedades...)">${desc}</textarea>
     </div>
-  `;    
+  `;
 
-    div.querySelector(".itemQtd")?.addEventListener("input", atualizarInventario);
-    div.querySelector(".itemPeso")?.addEventListener("input", atualizarInventario);
-    div.querySelector(".removeItem")?.addEventListener("click", () => {
-        div.remove();
-        atualizarInventario();
-    });
-    div.querySelector(".toggleDesc")?.addEventListener("click", () => {
-        const d = div.querySelector(".itemDesc");
-        d.style.display = d.style.display === "none" ? "block" : "none";
-    });
+  // Listeners
+  div.querySelector(".itemQtd")?.addEventListener("input", atualizarInventario);
+  div.querySelector(".itemPeso")?.addEventListener("input", atualizarInventario);
+  
+  div.querySelector(".removeItem")?.addEventListener("click", () => {
+    div.remove();
+    atualizarInventario();
+  });
+  
+  div.querySelector(".toggleDesc")?.addEventListener("click", () => {
+    const descDiv = div.querySelector(".itemDesc");
+    descDiv.style.display = descDiv.style.display === "none" ? "block" : "none";
+  });
 
   document.getElementById("inventarioContainer").appendChild(div);
   atualizarInventario();
 }
 
+// ========================================
+// FUNÇÃO ATUALIZADA: Criar Magia (com Escola)
+// ========================================
 export function criarMagia(magia = {}) {
     const container = document.getElementById("magiasContainer");
     const div = document.createElement("div");
@@ -72,6 +128,17 @@ export function criarMagia(magia = {}) {
       <select class="magiaTipo">
       <option value="arcana" ${magia.tipo === 'arcana' ? 'selected' : ''}>Arcana</option>
       <option value="divina" ${magia.tipo === 'divina' ? 'selected' : ''}>Divina</option>
+      </select>
+      <select class="magiaEscola">
+      <option value="">Escola</option>
+      <option value="abjuracao" ${magia.escola === 'abjuracao' ? 'selected' : ''}>Abjuração</option>
+      <option value="adivinhacao" ${magia.escola === 'adivinhacao' ? 'selected' : ''}>Adivinhação</option>
+      <option value="convocacao" ${magia.escola === 'convocacao' ? 'selected' : ''}>Convocação</option>
+      <option value="encantamento" ${magia.escola === 'encantamento' ? 'selected' : ''}>Encantamento</option>
+      <option value="evocacao" ${magia.escola === 'evocacao' ? 'selected' : ''}>Evocação</option>
+      <option value="ilusao" ${magia.escola === 'ilusao' ? 'selected' : ''}>Ilusão</option>
+      <option value="necromancia" ${magia.escola === 'necromancia' ? 'selected' : ''}>Necromancia</option>
+      <option value="transmutacao" ${magia.escola === 'transmutacao' ? 'selected' : ''}>Transmutação</option>
       </select>
       <button type="button" class="toggleDesc">Descrição</button>
       <button type="button" class="removeMagiaBtn">Excluir</button>

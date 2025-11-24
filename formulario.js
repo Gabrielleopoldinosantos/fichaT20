@@ -1,7 +1,7 @@
 // formulario.js
 import {
     calcularDefesa
-} from "./calculos.js"; // Para garantir que os cálculos rodem após preencher
+} from "./calculos.js";
 
 // Helpers
 export const gv = (id) => (document.getElementById(id)?.value ?? "");
@@ -10,26 +10,39 @@ export const gvn = (id) => parseInt(document.getElementById(id)?.value) || 0;
 // Importa as funções para criar elementos dinâmicos
 import {
     criarItemInventario,
-    criarMagia
+    criarMagia,
+    criarOficio
 } from "./util.js";
-
 
 // Coleta todos os dados da tela
 export function coletarFichaDoFormulario() {
     
-// Perícias
-const pericias = [];
-document.querySelectorAll(".pericias div").forEach(div => {
-  const nome = div.querySelector("span")?.innerText?.trim() ?? "";
-  const valor = parseInt(div.querySelector("#pericia" + nome)?.value) || 0;
-  const treinado = div.querySelector("#treino" + nome)?.checked || false;
-  const bonus = gvn("bonus" + nome);
-  const atributo = div.querySelector("#attr" + nome)?.value ?? "des"; // novo campo
+    // Perícias normais
+    const pericias = [];
+    document.querySelectorAll(".pericias div").forEach(div => {
+        const nome = div.querySelector("span")?.innerText?.trim() ?? "";
+        const valor = parseInt(div.querySelector("#pericia" + nome)?.value) || 0;
+        const treinado = div.querySelector("#treino" + nome)?.checked || false;
+        const bonus = gvn("bonus" + nome);
+        const atributo = div.querySelector("#attr" + nome)?.value ?? "des";
 
-  if (nome)
-    pericias.push({ nome, valor, treinado, bonus, atributo });
-});
+        if (nome)
+            pericias.push({ nome, valor, treinado, bonus, atributo });
+    });
 
+    // Ofícios
+    const oficios = [];
+    document.querySelectorAll(".oficio-item").forEach(oficioDiv => {
+        const nome = oficioDiv.querySelector(".oficioNome")?.value?.trim() ?? "";
+        const atributo = oficioDiv.querySelector(".oficioAttr")?.value ?? "int";
+        const treinado = oficioDiv.querySelector(".oficioTreino")?.checked || false;
+        const bonus = parseInt(oficioDiv.querySelector(".oficioBonus")?.value) || 0;
+        const valor = parseInt(oficioDiv.querySelector(".oficioValor")?.value) || 0;
+
+        if (nome) {
+            oficios.push({ nome, atributo, treinado, bonus, valor });
+        }
+    });
 
     // Ataques
     const ataques = [];
@@ -45,13 +58,14 @@ document.querySelectorAll(".pericias div").forEach(div => {
         });
     });
 
-    // Magias 
+    // Magias (COM ESCOLA)
     const magias = [];
     document.querySelectorAll("#magiasContainer .magia").forEach(div => {
         magias.push({
             nome: div.querySelector(".magiaNome")?.value ?? "",
             circulo: parseInt(div.querySelector(".magiaCirculo")?.value) || 0,
-            tipo: div.querySelector(".magiaTipo")?.value ?? "arcana", // Select
+            tipo: div.querySelector(".magiaTipo")?.value ?? "arcana",
+            escola: div.querySelector(".magiaEscola")?.value ?? "",
             execucao: div.querySelector(".magiaExecucao")?.value ?? "",
             alcance: div.querySelector(".magiaAlcance")?.value ?? "",
             alvo: div.querySelector(".magiaAlvo")?.value ?? "",
@@ -92,10 +106,10 @@ document.querySelectorAll(".pericias div").forEach(div => {
         escudo: gvn("escudo"),
         defOutros: gvn("defOutros"),
         armaduraPenalidade: gvn("armaduraPenalidade"),
+        cargaMaxima: gvn("cargaMaxima"),
 
-        pericias, // JÁ INCLUI O NOVO CAMPO 'bonus'
-        ataques: ataques,
-        magias: magias,        
+        pericias,
+        oficios,
         ataques,
         magias,
 
@@ -147,26 +161,33 @@ export function preencherFormularioComFicha(f) {
     set("armadura", f.armadura);
     set("escudo", f.escudo);
     set("defOutros", f.defOutros);
-    set("armaduraPenalidade", f.armaduraPenalidade); // NOVO CAMPO CARREGADO
+    set("armaduraPenalidade", f.armaduraPenalidade);
+    set("cargaMaxima", f.cargaMaxima || 0);
 
-// Perícias
-const mapaPericias = new Map((f.pericias ?? []).map(p => [p.nome, p]));
-document.querySelectorAll(".pericias div").forEach(div => {
-  const nome = div.querySelector("span")?.innerText?.trim() ?? "";
-  const numInput = div.querySelector("#pericia" + nome);
-  const check = div.querySelector("#treino" + nome);
-  const bonusInput = document.getElementById("bonus" + nome);
-  const attrSelect = div.querySelector("#attr" + nome);
+    // Perícias normais
+    const mapaPericias = new Map((f.pericias ?? []).map(p => [p.nome, p]));
+    document.querySelectorAll(".pericias div").forEach(div => {
+        const nome = div.querySelector("span")?.innerText?.trim() ?? "";
+        const numInput = div.querySelector("#pericia" + nome);
+        const check = div.querySelector("#treino" + nome);
+        const bonusInput = document.getElementById("bonus" + nome);
+        const attrSelect = div.querySelector("#attr" + nome);
 
-  if (nome && mapaPericias.has(nome)) {
-    const p = mapaPericias.get(nome);
-    if (numInput) numInput.value = p.valor ?? 0;
-    if (check) check.checked = !!p.treinado;
-    if (bonusInput) bonusInput.value = p.bonus ?? 0;
-    if (attrSelect) attrSelect.value = p.atributo ?? "des";
-  }
-});
+        if (nome && mapaPericias.has(nome)) {
+            const p = mapaPericias.get(nome);
+            if (numInput) numInput.value = p.valor ?? 0;
+            if (check) check.checked = !!p.treinado;
+            if (bonusInput) bonusInput.value = p.bonus ?? 0;
+            if (attrSelect) attrSelect.value = p.atributo ?? "des";
+        }
+    });
 
+    // Ofícios
+    const oficiosContainer = document.getElementById("oficiosContainer");
+    oficiosContainer.innerHTML = "";
+    (f.oficios ?? []).forEach(oficio => {
+        criarOficio(oficio.nome, oficio.atributo, oficio.treinado, oficio.bonus, oficio.valor);
+    });
 
     // Inventário
     const invContainer = document.getElementById("inventarioContainer");
@@ -208,5 +229,4 @@ document.querySelectorAll(".pericias div").forEach(div => {
     
     // Recalcula após carregar os dados
     calcularDefesa();
-    // calcularPericias(); // É chamado na carga global, mas pode ser adicionado aqui
 }

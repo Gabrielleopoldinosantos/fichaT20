@@ -6,7 +6,6 @@
   <title>Ficha Tormenta20</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="styleEscuro.css">
-
 </head>
 <body>
 <h1>T20 - FICHA</h1>
@@ -90,7 +89,6 @@
 </div> 
 </div>
 
-
   <div class="caixa defesa-caixa">
   <h2>Defesa</h2>
   <label>
@@ -102,8 +100,7 @@
       <option value="int">Inteligência</option>
       <option value="sab">Sabedoria</option>
       <option value="car">Carisma</option>
-      <option value= 0 >Sem atributo</option>
-
+      <option value="0">Sem atributo</option>
     </select>
   </label>
   <label>Armadura: <input type="number" id="armadura" value="0"></label>
@@ -132,8 +129,6 @@
     </div>
   </div>
 </div>
-
-
 
   <div class="caixa pericias-caixa">
     <h2>Perícias</h2>
@@ -348,13 +343,13 @@
     <input type="number" id="periciaIntuicao" readonly>
   </div>
 
-    <div><span>Investigação</span>
+  <div><span>Investigação</span>
     <select id="attrInvestigacao">
       <option value="for">For</option>
       <option value="des">Des</option>
       <option value="con">Con</option>
-      <option value="int" selected >Int</option>
-      <option value="sab" >Sab</option>
+      <option value="int" selected>Int</option>
+      <option value="sab">Sab</option>
       <option value="car">Car</option>
     </select>
     <input type="checkbox" id="treinoInvestigacao">
@@ -432,24 +427,7 @@
     <input type="number" id="periciaNobreza" readonly>
   </div>
 
-<div><span>Ofício</span>
-  <select id="attrOficio">
-   <option value="for">For</option>
-   <option value="des">Des</option>
-   <option value="con">Con</option>
-   <option value="int" selected>Int</option>
-   <option value="sab">Sab</option>
-   <option value="car">Car</option>
-  </select>
-  
-    <input type="text" id="tipoOficio" placeholder="Tipo de Ofício" value="">
-  
-  <input type="checkbox" id="treinoOficio">
-  <input type="number" id="bonusOficio" placeholder="Bônus" value="0">
-  <input type="number" id="periciaOficio" readonly>
- </div>
-
-    <div><span>Percepção</span>
+  <div><span>Percepção</span>
     <select id="attrPercepcao">
       <option value="for">For</option>
       <option value="des">Des</option>
@@ -547,8 +525,16 @@
     <input type="number" id="periciaVontade" readonly>
   </div>
 </div>
-</div>
 
+<!-- Seção de Ofícios (movida para o final) -->
+<div style="margin-top: 20px; padding-top: 15px; border-top: 2px solid #8b0000;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+    <h3 style="margin: 0; color: #8b0000;">Ofícios</h3>
+    <button id="addOficioBtn" type="button" style="background: #8b0000; color: #f8f3e7; border: 2px solid #5a0000; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85em;">+ Adicionar Ofício</button>
+  </div>
+  <div id="oficiosContainer"></div>
+</div>
+</div>
 
   <div class="caixa proficiencias-caixa">
     <h2>Proficiencias & Outras Características</h2>
@@ -573,7 +559,7 @@
                 <option value="for">FOR</option>
                 <option value="des">DES</option>
                 <option value="con">CON</option>
-                <option value=0>NENHUM</option>
+                <option value="0">NENHUM</option>
             </select>
             <span id="cdTotal" class="cd-valor">10</span>
             <span>+</span>
@@ -586,20 +572,35 @@
 </div>  
 
 <div class="quadro inventario-quadro">
-    <div class="quadro-header">
+    <div class="quadro-header-inventario">
       <h2>INVENTÁRIO</h2>
       <button type="button" id="addItemBtn">+ Adicionar Item</button>
     </div>
     
-    <div class="inventario-limites">
-        <label for="cargaMaxima">Carga Máxima Adicional: </label>
-        <input type="number" id="cargaMaxima" value="0" min="0" style="width: 50px;">
-        
+    <div class="inventario-controles">
+        <div class="controle-item">
+            <label for="cargaMaxima">Carga Máxima Adicional:</label>
+            <input type="number" id="cargaMaxima" value="0" min="0">
+        </div>
     </div>
+
+    <div class="inventario-header">
+        <span class="col-nome">Nome</span>
+        <span class="col-qtd">Qtd</span>
+        <span class="col-espacos">Espaços</span>
+        <span class="col-total">Total</span>
+        <span class="col-acoes"></span>
+    </div>
+    
     <div id="inventarioContainer" class="lista-itens"></div>
-    <p id="statusInventario">Espaço ocupado: 0 / 0</p>
+    
+    <div id="statusInventario" class="status-inventario">
+        Espaço ocupado: <span class="status-valor">0</span> / <span class="status-max">0</span> 
+        <span class="status-aviso"></span>
+    </div>
 </div>
 
-</div> <script type="module" src="./script.js"></script>  
+</div> 
+<script type="module" src="./script.js"></script>  
 </body>
 </html>

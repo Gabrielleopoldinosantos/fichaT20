@@ -1,4 +1,4 @@
-/* styleEscuro.css*/
+/* styleEscuro.css - Atualizado */
 .dark-mode {
      /* Fundo principal e texto */
      background: #1a1a1a !important;
@@ -13,14 +13,14 @@
 .dark-mode .caixa {
      /* Fundo dos painéis e bordas */
      background: #2c2c2c !important;
-     border-color: #616161 !important; /* Borda Dourada */
+     border-color: #616161 !important;
      box-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
 }
 .dark-mode .caixa h2 {
      /* Título das caixas */
      background: linear-gradient(#4d4d4d, #383838) !important;
      color: #f0f0f0 !important;
-     border-bottom-color: #4d4d4d !important; /* Borda inferior dourada */
+     border-bottom-color: #4d4d4d !important;
 }
 .dark-mode label,
 .dark-mode .itemTotal {
@@ -40,7 +40,7 @@
 .dark-mode input[readonly] {
         background: #444444 !important;
         border-color: #555555 !important;
-        color: #ffffff !important; /* Cor de destaque para valores calculados */
+        color: #ffffff !important;
 }
 /* Botões */
 .dark-mode button {
@@ -61,18 +61,18 @@
 /* ======================================= */
 /* 1. PONTOS DE VIDA (PV) e PONTOS DE MANA (PM) */
 .dark-mode .status-label {
-        color: #f0f0f0 !important; /* Força o PV e PM (o texto da label) para branco */
+        color: #f0f0f0 !important;
 }
 /* 2. Total Defesa: 10 (Garante que o texto do total é claro) */
 .dark-mode #defTotal {
-        color: #f0f0f0 !important; /* Força o total de defesa para branco */
+        color: #f0f0f0 !important;
 }
 .dark-mode .total-defesa-container {
-        color: #f0f0f0 !important; /* Garante que o texto ao redor do total também seja branco/claro */
+        color: #f0f0f0 !important;
 }
 /* 3. m/ (O separador do deslocamento) */
 .dark-mode .deslocamento-inputs .status-separator {
-        color: #f0f0f0 !important; /* Força o separador do deslocamento para branco */
+        color: #f0f0f0 !important;
 }
 /* PV/PM (CORREÇÃO DE CORES NA BARRA) */
 .dark-mode .status-bar {
@@ -92,52 +92,108 @@
      color: #f0f0f0 !important;
 }
 /* Inventário */
-.dark-mode .quadro {
+.dark-mode .inventario-quadro {
      background: #2c2c2c !important;
      border-color: #555555 !important;
 }
-.dark-mode .quadro-header {
+.dark-mode .quadro-header-inventario {
      background: linear-gradient(#4d4d4d, #383838) !important;
      color: #ffffff !important;
+     border-bottom-color: #555555 !important;
 }
-.dark-mode #statusInventario {
-     color: #ffffff !important;
+.dark-mode .quadro-header-inventario h2 {
+     color: #f0f0f0 !important;
 }
-/* Magias */
-.dark-mode .magia {
+.dark-mode .quadro-header-inventario button {
+     background: linear-gradient(#666666, #4d4d4d) !important;
+     border-color: #888888 !important;
+     color: #f0f0f0 !important;
+}
+.dark-mode .inventario-controles {
      background: #333333 !important;
+     border-bottom-color: #555555 !important;
+}
+.dark-mode .controle-item label {
+     color: #f0f0f0 !important;
+}
+.dark-mode .controle-item input {
+     background: #2c2c2c !important;
+     color: #f0f0f0 !important;
      border-color: #555555 !important;
+}
+.dark-mode .inventario-header {
+     background: #383838 !important;
+     border-bottom-color: #555555 !important;
+     color: #f0f0f0 !important;
+}
+.dark-mode .lista-itens {
+     background: #2c2c2c !important;
+}
+.dark-mode .status-inventario {
+     background: #333333 !important;
+     border-top-color: #555555 !important;
+     color: #f0f0f0 !important;
+}
+.dark-mode .status-inventario .status-valor {
+     color: #66ff66 !important;
+}
+.dark-mode .status-inventario .status-max {
+     color: #f0f0f0 !important;
+}
+.dark-mode .status-inventario .status-aviso {
+     color: #ff6666 !important;
 }
 /* Total do item no inventário */
 .dark-mode .itemInventario .itemTotal {
      background: #444444 !important;
-        color: #cccccc !important;
+     color: #cccccc !important;
+     border-color: #555555 !important;
 }
 .dark-mode .itemNome {
         color: #ffffff !important;
 }
-/* Perícias: Alterado o traço pontilhado */
-.dark-mode .pericias div {
-        /* Mantém a cor original do item, mas ajusta a borda */
-        border-bottom: 1px dashed #4d4d4d !important;
-}
 /* Inventário: Alterado o traço pontilhado */
 .dark-mode .itemInventario {
-        /* Mantém a cor original do item, mas ajusta a borda */
         border-bottom: 1px dashed #4d4d4d !important;
         border-radius: 5px;
+        background: #333333 !important;
+        border: 2px solid #555555 !important;
 }
-/* styleEscuro.css (ADICIONAR NO FINAL) */
+.dark-mode .itemDesc {
+     background: #383838 !important;
+     border-color: #555555 !important;
+}
+/* Perícias: Alterado o traço pontilhado */
+.dark-mode .pericias div {
+        border-bottom: 1px dashed #4d4d4d !important;
+}
+/* ======================================= */
+/* MAGIAS - MODO ESCURO
+/* ======================================= */
+/* Fundo e Borda das Magias */
+.dark-mode .magia {
+     background: #333333 !important;
+     border-color: #555555 !important;
+}
 /* Estilos para o Cabeçalho de Magias (Header) */
 .dark-mode .magias-header {
-        /* Garante que o fundo do header escuro seja aplicado */
         background: linear-gradient(#4d4d4d, #383838) !important;
-        /* Garante que não haja borda inferior visível no modo escuro também */
         border-bottom: none !important;
 }
-/* Estilos para o Container da CD da Magia */
+.dark-mode .magias-header h2 {
+        background: none !important;
+        border-bottom: none !important;
+        color: #f0f0f0 !important;
+}
+/* Botão de Adicionar Magia */
+.dark-mode .magias-header button {
+        background: linear-gradient(#666666, #4d4d4d) !important;
+        border-color: #888888 !important;
+        color: #f0f0f0 !important;
+}
+/* Container da CD da Magia */
 .dark-mode .cd-container {
-        background: #333333 !important; /* Fundo escuro para o bloco */
+        background: #333333 !important;
         border: 1px solid #555555 !important;
         color: #f0f0f0 !important;
 }
@@ -145,15 +201,15 @@
 .dark-mode .cd-container label {
         color: #f0f0f0 !important;
 }
-/* Atributo Select */
+/* Atributo Select da CD */
 .dark-mode .cd-container select {
         border: 1px solid #555555 !important;
-        background: #2c2c2c !important; /* Fundo mais escuro */
+        background: #2c2c2c !important;
         color: #f0f0f0 !important;
 }
 /* Valor Calculado da CD (o número principal) */
 .dark-mode .cd-container .cd-valor {
-        background: #666666 !important; /* Destaque cinza */
+        background: #666666 !important;
         color: #f0f0f0 !important;
         border: 1px solid #888888 !important;
 }
@@ -161,38 +217,83 @@
 .dark-mode .cd-container span {
         color: #f0f0f0 !important;
 }
-/* Bônus Manual (Input) */
+/* Bônus Manual (Input) da CD */
 .dark-mode .cd-container input {
         border: 1px solid #555555 !important;
         background: #2c2c2c !important;
         color: #f0f0f0 !important;
 }
-/* Botão de Adicionar Magia (Ajuste de cor) */
-.dark-mode .magias-header button {
-        background: linear-gradient(#666666, #4d4d4d) !important;
-        border-color: #888888 !important;
-        color: #f0f0f0 !important;
+/* Inputs e Selects dentro das Magias (incluindo Escola) */
+.dark-mode .magia-linha input[type="text"],
+.dark-mode .magia-linha input[type="number"],
+.dark-mode .magia-linha select {
+     background: #2c2c2c !important;
+     color: #f0f0f0 !important;
+     border-color: #555555 !important;
 }
-/* styleEscuro.css (ADICIONAR/MODIFICAR) */
-.dark-mode .magias-header h2 {
-        /* ANULA O GRADIENTE DO H2 GENÉRICO NO MODO ESCURO */
-        background: none !important;
-        border-bottom: none !important;
-        color: #f0f0f0 !important; /* Mantém a cor do texto clara */
+/* Select de Escola de Magia - Garantia adicional */
+.dark-mode .magiaEscola {
+     background: #2c2c2c !important;
+     color: #f0f0f0 !important;
+     border: 2px solid #555555 !important;
 }
-.dark-mode .itemInventario {
-        /* O mais importante: garante que a cor do fundo do item em mobile seja escura,
-           pois ele tem um estilo de caixa próprio no mobile que pode ter fundo branco. */
-        background: #333333 !important;
-        border: 2px solid #555555 !important; /* Borda visível no mobile */
-        /* Linha tracejada do desktop */
-      border-bottom: 1px dashed #4d4d4d !important;
+/* Botões dentro das magias */
+.dark-mode .magia-linha button {
+     background: linear-gradient(#666666, #4d4d4d) !important;
+     border-color: #888888 !important;
+     color: #f0f0f0 !important;
 }
-
-
-
-/* styleEscuro.css (ADICIONAR/MODIFICAR) */
-
+/* Textarea de Descrição da Magia */
+.dark-mode .magiaDesc textarea {
+     background: #2c2c2c !important;
+     color: #f0f0f0 !important;
+     border-color: #555555 !important;
+}
+/* Remove a linha HR das magias */
 .dark-mode .magia hr {
-    display: none !important; /* Use !important para garantir a sobrescrita no modo escuro */
+    display: none !important;
+}
+/* ======================================= */
+/* OFÍCIOS - MODO ESCURO
+/* ======================================= */
+.dark-mode .oficio-item {
+     background: #333333 !important;
+     border-bottom-color: #555555 !important;
+}
+.dark-mode .oficio-item input[type="text"],
+.dark-mode .oficio-item input[type="number"],
+.dark-mode .oficio-item select {
+     background: #2c2c2c !important;
+     color: #f0f0f0 !important;
+     border-color: #555555 !important;
+}
+.dark-mode .oficio-item input[readonly] {
+     background: #444444 !important;
+     color: #ffffff !important;
+}
+.dark-mode .oficio-item button {
+     background: linear-gradient(#666666, #4d4d4d) !important;
+     border-color: #888888 !important;
+}
+/* Título e botão da seção de Ofícios */
+.dark-mode .pericias-caixa h3 {
+     color: #f0f0f0 !important;
+}
+.dark-mode #addOficioBtn {
+     background: linear-gradient(#666666, #4d4d4d) !important;
+     border-color: #888888 !important;
+     color: #f0f0f0 !important;
+}
+/* Borda superior da seção de Ofícios */
+.dark-mode .pericias-caixa > div[style*="border-top"] {
+     border-top-color: #555555 !important;
+}
+/* ======================================= */
+/* RESPONSIVIDADE - MODO ESCURO
+/* ======================================= */
+@media (max-width: 768px) {
+     .dark-mode .itemInventario {
+          background: #333333 !important;
+          border: 2px solid #555555 !important;
+     }
 }
