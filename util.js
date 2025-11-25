@@ -124,7 +124,14 @@ export function criarMagia(magia = {}) {
     div.innerHTML = `
       <div class="magia-linha">
       <input type="text" class="magiaNome" placeholder="Nome" value="${magia.nome ?? ""}">
-      <input type="number" class="magiaCirculo" placeholder="Círculo" min="1" max="5" value="${magia.circulo || ''}">
+      <select class="magiaCirculo">
+      <option value="">Círculo</option>
+      <option value="1" ${magia.circulo === 1 ? 'selected' : ''}>1° Primeiro</option>
+      <option value="2" ${magia.circulo === 2 ? 'selected' : ''}>2° Segundo</option>
+      <option value="3" ${magia.circulo === 3 ? 'selected' : ''}>3° Terceiro</option>
+      <option value="4" ${magia.circulo === 4 ? 'selected' : ''}>4° Quarto</option>
+      <option value="5" ${magia.circulo === 5 ? 'selected' : ''}>5° Quinto</option>
+      </select>
       <select class="magiaTipo">
       <option value="arcana" ${magia.tipo === 'arcana' ? 'selected' : ''}>Arcana</option>
       <option value="divina" ${magia.tipo === 'divina' ? 'selected' : ''}>Divina</option>

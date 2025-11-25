@@ -288,6 +288,10 @@
 .dark-mode .pericias-caixa > div[style*="border-top"] {
      border-top-color: #555555 !important;
 }
+/* Linha divisória dentro dos itens de Ofício */
+.dark-mode .oficio-item > div {
+     border-bottom-color: #868686 !important;
+}
 /* ======================================= */
 /* RESPONSIVIDADE - MODO ESCURO
 /* ======================================= */

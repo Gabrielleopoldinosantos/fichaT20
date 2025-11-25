@@ -229,4 +229,4 @@ export function preencherFormularioComFicha(f) {
     
     // Recalcula após carregar os dados
     calcularDefesa();
-}
+}   
