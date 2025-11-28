@@ -7,6 +7,15 @@ import {
 export const gv = (id) => (document.getElementById(id)?.value ?? "");
 export const gvn = (id) => parseInt(document.getElementById(id)?.value) || 0;
 
+// Função para normalizar nomes de perícias (remove acentos)
+function normalizarNome(nome) {
+    return nome
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '') // Remove acentos
+        .replace(/ç/g, 'c')
+        .replace(/Ç/g, 'C');
+}
+
 // Importa as funções para criar elementos dinâmicos
 import {
     criarItemInventario,
@@ -20,14 +29,25 @@ export function coletarFichaDoFormulario() {
     // Perícias normais
     const pericias = [];
     document.querySelectorAll(".pericias div").forEach(div => {
-        const nome = div.querySelector("span")?.innerText?.trim() ?? "";
-        const valor = parseInt(div.querySelector("#pericia" + nome)?.value) || 0;
-        const treinado = div.querySelector("#treino" + nome)?.checked || false;
-        const bonus = gvn("bonus" + nome);
-        const atributo = div.querySelector("#attr" + nome)?.value ?? "des";
+        const spanNome = div.querySelector("span")?.innerText?.trim() ?? "";
+        if (!spanNome) return;
+        
+        // Normaliza o nome para corresponder aos IDs (sem acentos)
+        const nomeNormalizado = normalizarNome(spanNome);
+        
+        const selectAttr = div.querySelector(`#attr${nomeNormalizado}`);
+        const atributo = selectAttr?.value ?? "des";
+        const valor = parseInt(div.querySelector(`#pericia${nomeNormalizado}`)?.value) || 0;
+        const treinado = div.querySelector(`#treino${nomeNormalizado}`)?.checked || false;
+        const bonus = gvn(`bonus${nomeNormalizado}`);
 
-        if (nome)
-            pericias.push({ nome, valor, treinado, bonus, atributo });
+        pericias.push({ 
+            nome: spanNome, // Salva o nome original (com acentos) 
+            valor, 
+            treinado, 
+            bonus, 
+            atributo 
+        });
     });
 
     // Ofícios
@@ -164,21 +184,28 @@ export function preencherFormularioComFicha(f) {
     set("armaduraPenalidade", f.armaduraPenalidade);
     set("cargaMaxima", f.cargaMaxima || 0);
 
-    // Perícias normais
+    // Perícias normais - CORRIGIDO
     const mapaPericias = new Map((f.pericias ?? []).map(p => [p.nome, p]));
     document.querySelectorAll(".pericias div").forEach(div => {
-        const nome = div.querySelector("span")?.innerText?.trim() ?? "";
-        const numInput = div.querySelector("#pericia" + nome);
-        const check = div.querySelector("#treino" + nome);
-        const bonusInput = document.getElementById("bonus" + nome);
-        const attrSelect = div.querySelector("#attr" + nome);
+        const spanNome = div.querySelector("span")?.innerText?.trim() ?? "";
+        if (!spanNome) return;
+        
+        // Normaliza o nome para corresponder aos IDs
+        const nomeNormalizado = normalizarNome(spanNome);
+        
+        const numInput = div.querySelector(`#pericia${nomeNormalizado}`);
+        const check = div.querySelector(`#treino${nomeNormalizado}`);
+        const bonusInput = document.getElementById(`bonus${nomeNormalizado}`);
+        const attrSelect = div.querySelector(`#attr${nomeNormalizado}`);
 
-        if (nome && mapaPericias.has(nome)) {
-            const p = mapaPericias.get(nome);
+        if (mapaPericias.has(spanNome)) {
+            const p = mapaPericias.get(spanNome);
             if (numInput) numInput.value = p.valor ?? 0;
             if (check) check.checked = !!p.treinado;
             if (bonusInput) bonusInput.value = p.bonus ?? 0;
-            if (attrSelect) attrSelect.value = p.atributo ?? "des";
+            if (attrSelect && p.atributo) {
+                attrSelect.value = p.atributo;
+            }
         }
     });
 
@@ -229,4 +256,4 @@ export function preencherFormularioComFicha(f) {
     
     // Recalcula após carregar os dados
     calcularDefesa();
-}   
+}
